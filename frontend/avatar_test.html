@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Avatar Test</title>
+    <style>
+        .avatar-container {
+            width: 200px;
+            height: 200px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .avatar-placeholder {
+            font-size: 4rem;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background: #1f4037;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Avatar Test</h1>
+    
+    <div class="avatar-container">
+        <div class="avatar-placeholder">🤖</div>
+        <img id="avatarImage" style="display: none;" alt="AI Avatar">
+    </div>
+    
+    <div>
+        <button onclick="showAvatar()">Show Avatar</button>
+        <button onclick="hideAvatar()">Hide Avatar</button>
+        <button onclick="checkStorage()">Check Storage</button>
+    </div>
+    
+    <div id="status"></div>
+    
+    <script>
+        function showAvatar() {
+            const avatarPlaceholder = document.querySelector('.avatar-placeholder');
+            const avatarImage = document.getElementById('avatarImage');
+            const status = document.getElementById('status');
+            
+            // Get the user's avatar URL from multiple sources
+            let avatarUrl = sessionStorage.getItem("avatarUrl") || 
+                            localStorage.getItem("avatarUrl") ||
+                            sessionStorage.getItem("profilePhoto") || 
+                            localStorage.getItem("profilePhoto");
+            
+            status.innerHTML = `<p>Avatar URL from storage: ${avatarUrl || 'Not found'}</p>`;
+            
+            // If no avatar URL found, use default
+            if (!avatarUrl) {
+                avatarUrl = "https://cdn.discordapp.com/attachments/1127860890006409337/1127860923460689950/ai-avatar.png";
+                status.innerHTML += `<p>Using default avatar</p>`;
+            }
+            
+            // Hide placeholder and show avatar image
+            avatarPlaceholder.style.display = 'none';
+            avatarImage.style.display = 'block';
+            avatarImage.src = avatarUrl;
+            avatarImage.alt = "AI Avatar";
+        }
+        
+        function hideAvatar() {
+            const avatarPlaceholder = document.querySelector('.avatar-placeholder');
+            const avatarImage = document.getElementById('avatarImage');
+            
+            avatarPlaceholder.style.display = 'flex';
+            avatarImage.style.display = 'none';
+        }
+        
+        function checkStorage() {
+            const status = document.getElementById('status');
+            status.innerHTML = `
+                <p>Session Storage avatarUrl: ${sessionStorage.getItem("avatarUrl") || 'Not found'}</p>
+                <p>Local Storage avatarUrl: ${localStorage.getItem("avatarUrl") || 'Not found'}</p>
+                <p>Session Storage profilePhoto: ${sessionStorage.getItem("profilePhoto") || 'Not found'}</p>
+                <p>Local Storage profilePhoto: ${localStorage.getItem("profilePhoto") || 'Not found'}</p>
+            `;
+        }
+    </script>
+</body>
+</html>

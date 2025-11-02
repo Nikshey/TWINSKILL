@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Test</title>
+</head>
+<body>
+    <h1>Login Test</h1>
+    <button onclick="testLogin()">Test Login Endpoint</button>
+    <button onclick="testHealth()">Test Health Endpoint</button>
+    <div id="result"></div>
+
+    <script>
+        async function testLogin() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing login endpoint...';
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: 'test@gmail.com',
+                        password: 'testpassword'
+                    })
+                });
+                
+                const data = await response.json();
+                resultDiv.innerHTML = `
+                    <h3>Login Test Result:</h3>
+                    <p>Status: ${response.status}</p>
+                    <p>Message: ${data.message}</p>
+                    <p>Response: ${JSON.stringify(data)}</p>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3>Login Test Result:</h3>
+                    <p>Error: ${error.message}</p>
+                    <p>This indicates a network or CORS issue</p>
+                `;
+            }
+        }
+        
+        async function testHealth() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing health endpoint...';
+            
+            try {
+                const response = await fetch('http://localhost:3000/health');
+                const data = await response.json();
+                resultDiv.innerHTML = `
+                    <h3>Health Test Result:</h3>
+                    <p>Status: ${response.status}</p>
+                    <p>Response: ${JSON.stringify(data)}</p>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3>Health Test Result:</h3>
+                    <p>Error: ${error.message}</p>
+                    <p>This indicates a network or CORS issue</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

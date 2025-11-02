@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Avatar Verification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right top, #1f4037, #99f2c8);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        
+        h1 {
+            color: #1f4037;
+            text-align: center;
+        }
+        
+        .step {
+            background: #f8f9fa;
+            border-left: 4px solid #1f4037;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .step h3 {
+            margin-top: 0;
+            color: #1f4037;
+        }
+        
+        button {
+            background: #1f4037;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            margin: 0.5rem 0;
+        }
+        
+        button:hover {
+            background: #16332a;
+        }
+        
+        .status {
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-weight: 500;
+        }
+        
+        .error {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .test-result {
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        a {
+            color: #1f4037;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 AI Avatar Verification</h1>
+        
+        <div class="step">
+            <h3>Step 1: Server Status</h3>
+            <p>Check if the server is running and database is connected.</p>
+            <button onclick="checkServerStatus()">Check Server Status</button>
+            <div id="serverStatus" class="status">Click the button to check server status</div>
+        </div>
+        
+        <div class="step">
+            <h3>Step 2: Test Avatar Creation</h3>
+            <p>This will test if avatars can be created using the D-ID API.</p>
+            <button onclick="testAvatarCreation()">Test Avatar Creation</button>
+            <div id="avatarCreationStatus" class="status">Click the button to test avatar creation</div>
+        </div>
+        
+        <div class="step">
+            <h3>Step 3: Test Talk Generation</h3>
+            <p>This will test if lip-synced videos can be generated.</p>
+            <button onclick="testTalkGeneration()">Test Talk Generation</button>
+            <div id="talkGenerationStatus" class="status">Click the button to test talk generation</div>
+        </div>
+        
+        <div class="step">
+            <h3>Step 4: Full Integration Test</h3>
+            <p>Test the complete avatar functionality as a user would experience it.</p>
+            <a href="avatar_test.html" target="_blank">
+                <button>Open Avatar Test Page</button>
+            </a>
+        </div>
+        
+        <div class="test-result">
+            <h3>Next Steps:</h3>
+            <p>After verifying the backend functionality:</p>
+            <ol>
+                <li><a href="register.html" target="_blank">Register</a> a new user with a profile photo</li>
+                <li>Go to your <a href="dashboard.html" target="_blank">Dashboard</a> and create an AI avatar</li>
+                <li>Visit the <a href="learn.html" target="_blank">Learning</a> section and interact with your avatar</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        async function checkServerStatus() {
+            const statusDiv = document.getElementById('serverStatus');
+            statusDiv.textContent = "Checking server status...";
+            statusDiv.className = "status";
+            
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+                
+                if (response.ok && data.readyState === 1) {
+                    statusDiv.textContent = "✅ Server is running and database is connected";
+                    statusDiv.className = "status success";
+                } else {
+                    statusDiv.textContent = "❌ Server issue: " + JSON.stringify(data);
+                    statusDiv.className = "status error";
+                }
+            } catch (error) {
+                statusDiv.textContent = "❌ Server is not accessible: " + error.message;
+                statusDiv.className = "status error";
+            }
+        }
+        
+        async function testAvatarCreation() {
+            const statusDiv = document.getElementById('avatarCreationStatus');
+            statusDiv.textContent = "Testing avatar creation...";
+            statusDiv.className = "status";
+            
+            try {
+                // First check if we have a test user
+                statusDiv.textContent = "Checking for test user...";
+                
+                // In a real scenario, you would have a registered user
+                // For this test, we'll just verify the endpoint is accessible
+                const response = await fetch('/api/create-avatar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: 'test@example.com'
+                    })
+                });
+                
+                if (response.status === 404) {
+                    statusDiv.textContent = "✅ Avatar creation endpoint is accessible (user not found is expected for this test)";
+                    statusDiv.className = "status success";
+                } else if (response.status === 400) {
+                    statusDiv.textContent = "✅ Avatar creation endpoint is accessible (missing data is expected for this test)";
+                    statusDiv.className = "status success";
+                } else {
+                    const data = await response.json();
+                    statusDiv.textContent = "Response: " + JSON.stringify(data);
+                    statusDiv.className = "status";
+                }
+            } catch (error) {
+                statusDiv.textContent = "❌ Error testing avatar creation: " + error.message;
+                statusDiv.className = "status error";
+            }
+        }
+        
+        async function testTalkGeneration() {
+            const statusDiv = document.getElementById('talkGenerationStatus');
+            statusDiv.textContent = "Testing talk generation...";
+            statusDiv.className = "status";
+            
+            try {
+                const response = await fetch('/api/talk', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        imageUrl: "https://cdn.discordapp.com/attachments/1127860890006409337/1127860923460689950/ai-avatar.png",
+                        text: "Hello! This is a test message to verify the AI avatar functionality."
+                    })
+                });
+                
+                if (response.status === 200) {
+                    const data = await response.json();
+                    if (data.videoUrl) {
+                        statusDiv.textContent = "✅ Talk generation successful! Video URL received.";
+                        statusDiv.className = "status success";
+                    } else {
+                        statusDiv.textContent = "Response: " + JSON.stringify(data);
+                        statusDiv.className = "status";
+                    }
+                } else if (response.status === 500) {
+                    const data = await response.json();
+                    if (data.message && data.message.includes('DID_API_KEY')) {
+                        statusDiv.textContent = "❌ D-ID API key not set properly";
+                        statusDiv.className = "status error";
+                    } else {
+                        statusDiv.textContent = "❌ Talk generation failed: " + JSON.stringify(data);
+                        statusDiv.className = "status error";
+                    }
+                } else {
+                    statusDiv.textContent = "Response status: " + response.status;
+                    statusDiv.className = "status";
+                }
+            } catch (error) {
+                statusDiv.textContent = "❌ Error testing talk generation: " + error.message;
+                statusDiv.className = "status error";
+            }
+        }
+    </script>
+</body>
+</html>

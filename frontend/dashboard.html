@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Twinskill</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    h1 {
+      color: #2c3e50;
+      font-weight: 600;
+      font-size: 24px;
+    }
+
+    .menu {
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 2rem;
+      top: 4rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 0.8rem 1rem;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .dropdown a:hover {
+      background: #f0f0f0;
+    }
+
+    /* Search bar */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .search-bar input {
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .search-bar button {
+      background: #2c3e50;
+      color: white;
+      border: none;
+      padding: 0.5rem 0.8rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .search-bar button:hover {
+      background: #1a2530;
+    }
+
+    .dashboard-container {
+      display: flex;
+      flex: 1;
+      position: relative;
+    }
+
+    .dashboard-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      padding: 2rem;
+      width: 100%;
+    }
+
+    /* Skill category buttons */
+    .category-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .category-btn {
+      padding: 1rem 2rem;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      align-self: center;
+      width: 300px;
+    }
+
+    .category-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .category-btn.active {
+      background: #3498db;
+      color: white;
+    }
+
+    /* Skills container */
+    .skills-container {
+      display: flex;
+      width: 100%;
+      max-width: 1200px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      min-height: 70vh;
+    }
+
+    .skills-section {
+      flex: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .skills-section h2 {
+      color: #2c3e50;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      flex: 1;
+    }
+
+    .skill-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      border-color: #3498db;
+    }
+
+    .skill-card h3 {
+      font-size: 1.5rem;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+    }
+
+    .skill-card p {
+      color: #666;
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    .image-section {
+      flex: 1;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image-overlay {
+      background: rgba(44, 62, 80, 0.8);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      border-radius: 10px;
+      max-width: 80%;
+    }
+
+    .image-overlay h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .image-overlay p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    /* Hide sections by default */
+    .technical-skills, .non-technical-skills {
+      display: none;
+    }
+
+    /* Show active section */
+    .technical-skills.active, .non-technical-skills.active {
+      display: flex;
+    }
+
+    .profile-sidebar {
+      width: 0;
+      background: #fff;
+      box-shadow: -4px 0 15px rgba(0,0,0,0.1);
+      overflow-x: hidden;
+      transition: 0.4s;
+      padding: 2rem 0;
+      position: relative;
+    }
+
+    .profile-sidebar.open {
+      width: 300px;
+      padding: 2rem;
+    }
+
+    .profile-sidebar h2 {
+      color: #2c3e50;
+      margin-bottom: 1rem;
+    }
+
+    .profile-sidebar p {
+      margin: 0.6rem 0;
+      color: #333;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: #555;
+    }
+
+    /* Avatar section */
+    .avatar-section {
+      text-align: center;
+      margin: 1rem 0;
+    }
+
+    .avatar-container {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 1rem;
+      border: 3px solid #2c3e50;
+    }
+
+    .avatar-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .create-avatar-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    .create-avatar-btn:hover {
+      background: #2980b9;
+    }
+
+    .avatar-status {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #2c3e50;
+      font-weight: 500;
+    }
+    
+    .avatar-video {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    /* Settings Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-header h2 {
+      color: #2c3e50;
+      margin: 0;
+    }
+
+    .close-modal {
+      color: #aaa;
+      font-size: 2rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close-modal:hover {
+      color: #000;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #2c3e50;
+    }
+
+    .btn-danger {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+
+    .btn-danger:hover {
+      background: #c0392b;
+    }
+
+    .btn-secondary {
+      background: #7f8c8d;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 1rem;
+      margin-right: 0.5rem;
+    }
+
+    .btn-secondary:hover {
+      background: #95a5a6;
+    }
+
+    .confirmation-dialog {
+      display: none;
+      position: fixed;
+      z-index: 101;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .confirmation-content {
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .confirmation-content h3 {
+      color: #2c3e50;
+      margin-bottom: 1rem;
+    }
+
+    .confirmation-content p {
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .skills-container {
+        flex-direction: column;
+      }
+      
+      .category-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Twinskill Dashboard</h1>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search skill...">
+      <button onclick="searchCard()">Search</button>
+    </div>
+    <div class="menu" onclick="toggleMenu(event)">☰</div>
+    <div class="dropdown" id="dropdown">
+      <a href="index.html">Home</a>
+      <a href="#" onclick="openProfile(); hideMenu(); return false;">Profile</a>
+      <a href="#" onclick="openSettings(); hideMenu(); return false;">Settings</a>
+      <a href="login.html" onclick="logout(); hideMenu()">Logout</a>
+    </div>
+  </header>
+
+  <div class="dashboard-container">
+    <div class="dashboard-wrapper">
+      <div class="category-buttons">
+        <button class="category-btn active" onclick="showTechnicalSkills()">Technical Skills</button>
+        <button class="category-btn" onclick="showNonTechnicalSkills()">Non-Technical Skills</button>
+      </div>
+
+      <!-- Technical Skills Section -->
+      <div class="skills-container technical-skills active">
+        <div class="image-section" style="background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+          <div class="image-overlay">
+            <h2>Technical Skills</h2>
+            <p>Master programming languages and database technologies to build powerful applications and solve complex problems.</p>
+          </div>
+        </div>
+        <div class="skills-section">
+          <h2>Technical Skills</h2>
+          <div class="skills-grid">
+            <div class="skill-card" onclick="goLearn('C')">
+              <h3>🇨 C</h3>
+              <p>Learn the foundation of programming with C. Understand memory management, pointers, and data structures.</p>
+            </div>
+            <div class="skill-card" onclick="goLearn('C++')">
+              <h3>🇨++</h3>
+              <p>Advance your programming skills with C++. Learn object-oriented programming concepts and STL.</p>
+            </div>
+            <div class="skill-card" onclick="goLearn('Java')">
+              <h3>☕ Java</h3>
+              <p>Master one of the most popular programming languages. Build enterprise applications and Android apps.</p>
+            </div>
+            <div class="skill-card" onclick="goLearn('Python')">
+              <h3>🐍 Python</h3>
+              <p>Discover the versatile language for beginners and experts. Ideal for data science, AI, and automation.</p>
+            </div>
+            <div class="skill-card" onclick="goLearn('SQL')">
+              <h3>🗄️ SQL</h3>
+              <p>Master database querying and management with SQL. Learn to design and optimize relational databases.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Non-Technical Skills Section -->
+      <div class="skills-container non-technical-skills">
+        <div class="image-section" style="background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'); background-size: cover; background-position: center;">
+          <div class="image-overlay">
+            <h2>Non-Technical Skills</h2>
+            <p>Develop strategic thinking with chess, musical skills with piano, and wellness through yoga.</p>
+          </div>
+        </div>
+        <div class="skills-section">
+          <h2>Non-Technical Skills</h2>
+          <div class="skills-grid">
+            <div class="skill-card" onclick="goLearn('Chess')">
+              <h3>♟️ Chess</h3>
+              <p>Chess is a game of strategy and patience. Sharpen your mind and improve memory and focus.</p>
+            </div>
+            <div class="skill-card" onclick="goLearn('Piano')">
+              <h3>🎹 Piano</h3>
+              <p>Learning piano develops creativity and discipline. Enhance hand-eye coordination and build focus.</p>
+            </div>
+            <div class="skill-card" onclick="goLearn('Yoga')">
+              <h3>🧘 Yoga</h3>
+              <p>Yoga connects body, mind, and soul. Improve flexibility, posture, and inner peace.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Sidebar -->
+    <div class="profile-sidebar" id="profileSidebar">
+      <span class="close-btn" onclick="closeProfile()">✖</span>
+      <h2>👤 Profile</h2>
+      <div class="avatar-section">
+        <div class="avatar-container">
+          <img id="profilePhoto" src="https://via.placeholder.com/120" alt="Profile Photo">
+        </div>
+        <button class="create-avatar-btn" onclick="createAvatar()">Create AI Avatar</button>
+        <div class="avatar-status" id="avatarStatus">No avatar created</div>
+        <video id="avatarVideo" class="avatar-video" controls></video>
+      </div>
+      <p><strong>Name:</strong> <span id="pName">Guest</span></p>
+      <p><strong>Email:</strong> <span id="pEmail">-</span></p>
+      <p><strong>Phone:</strong> <span id="pPhone">-</span></p>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Account Settings</h2>
+        <span class="close-modal" onclick="closeSettings()">&times;</span>
+      </div>
+      
+      <div style="text-align: center; margin: 2rem 0;">
+        <button class="btn" onclick="showResetPassword()" style="width: 80%; margin-bottom: 1rem;">Reset Password</button>
+        <button class="btn" onclick="showResetPhoto()" style="width: 80%; margin-bottom: 1rem;">Reset Photo</button>
+        <button class="btn-danger" onclick="confirmDeleteAccount()" style="width: 80%;">Delete Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reset Password Modal -->
+  <div id="resetPasswordModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Reset Password</h2>
+        <span class="close-modal" onclick="closeResetPassword()">&times;</span>
+      </div>
+      
+      <div class="form-group">
+        <label for="currentPassword">Current Password</label>
+        <input type="password" id="currentPassword" placeholder="Enter current password">
+      </div>
+      
+      <div class="form-group">
+        <label for="newPassword">New Password</label>
+        <input type="password" id="newPassword" placeholder="Enter new password">
+      </div>
+      
+      <div class="form-group">
+        <label for="confirmPassword">Confirm New Password</label>
+        <input type="password" id="confirmPassword" placeholder="Confirm new password">
+      </div>
+      
+      <button class="btn" onclick="changePassword()" style="width: 100%;">Change Password</button>
+    </div>
+  </div>
+
+  <!-- Reset Photo Modal -->
+  <div id="resetPhotoModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Reset Photo</h2>
+        <span class="close-modal" onclick="closeResetPhoto()">&times;</span>
+      </div>
+      
+      <div class="form-group">
+        <label>Select New Photo</label>
+        <input type="file" id="newPhoto" accept="image/*">
+      </div>
+      
+      <div style="text-align: center; margin: 1rem 0;">
+        <button class="btn" onclick="updatePhoto()" style="margin-right: 0.5rem;">Update Photo</button>
+        <button class="btn-secondary" onclick="resetPhoto()">Reset to Default</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Dialog -->
+  <div id="confirmationDialog" class="confirmation-dialog">
+    <div class="confirmation-content">
+      <h3>Confirm Account Deletion</h3>
+      <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+      <div class="btn-group">
+        <button class="btn-secondary" onclick="closeConfirmation()">Cancel</button>
+        <button class="btn-danger" onclick="deleteAccount()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Category switching functionality
+    function showTechnicalSkills() {
+      document.querySelector('.technical-skills').classList.add('active');
+      document.querySelector('.non-technical-skills').classList.remove('active');
+      document.querySelectorAll('.category-btn')[0].classList.add('active');
+      document.querySelectorAll('.category-btn')[1].classList.remove('active');
+    }
+
+    function showNonTechnicalSkills() {
+      document.querySelector('.technical-skills').classList.remove('active');
+      document.querySelector('.non-technical-skills').classList.add('active');
+      document.querySelectorAll('.category-btn')[0].classList.remove('active');
+      document.querySelectorAll('.category-btn')[1].classList.add('active');
+    }
+
+    function goLearn(skill) {
+      localStorage.setItem("selectedSkill", skill);
+      window.location.href = "learn.html";
+    }
+
+    function hideMenu(){
+      const dd = document.getElementById("dropdown");
+      dd.style.display = "none";
+    }
+    
+    function toggleMenu(e){
+      e && e.stopPropagation();
+      const dd = document.getElementById("dropdown");
+      dd.style.display = dd.style.display === "block" ? "none" : "block";
+    }
+    
+    document.addEventListener('click', function(){ hideMenu(); });
+
+    function searchCard(){
+      let query = document.getElementById("searchInput").value.toLowerCase().trim();
+      if (query.includes("chess")) {
+        showNonTechnicalSkills();
+        // Could scroll to chess card here
+      } else if (query.includes("piano")) {
+        showNonTechnicalSkills();
+        // Could scroll to piano card here
+      } else if (query.includes("yoga")) {
+        showNonTechnicalSkills();
+        // Could scroll to yoga card here
+      } else if (query.includes("c++")) {
+        showTechnicalSkills();
+        // Could scroll to c++ card here
+      } else if (query.includes("c")) {
+        showTechnicalSkills();
+        // Could scroll to c card here
+      } else if (query.includes("java")) {
+        showTechnicalSkills();
+        // Could scroll to java card here
+      } else if (query.includes("python")) {
+        showTechnicalSkills();
+        // Could scroll to python card here
+      } else if (query.includes("sql")) {
+        showTechnicalSkills();
+        // Could scroll to sql card here
+      } else {
+        alert("Skill not found. Try 'chess', 'piano', 'yoga', 'c', 'c++', 'java', 'python', or 'sql'.");
+        return;
+      }
+    }
+
+    async function createAvatar() {
+      const email = sessionStorage.getItem("email") || localStorage.getItem("email");
+      if (!email) {
+        alert("Please log in to create an avatar");
+        return;
+      }
+
+      document.getElementById("avatarStatus").textContent = "Creating avatar...";
+      
+      try {
+        // Get the user's profile photo
+        let photoPath = sessionStorage.getItem("profilePhoto") || localStorage.getItem("profilePhoto");
+        if (!photoPath) {
+          document.getElementById("avatarStatus").textContent = "No profile photo found";
+          return;
+        }
+        
+        // If it's a relative path, convert to full URL
+        if (photoPath.startsWith('/')) {
+          photoPath = `${window.location.origin}${photoPath}`;
+        }
+        
+        // Call the backend API to create avatar
+        const response = await fetch('/api/create-avatar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: email })
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          const avatarUrl = result.avatarUrl;
+          
+          // Save to localStorage and sessionStorage
+          localStorage.setItem("avatarUrl", avatarUrl);
+          sessionStorage.setItem("avatarUrl", avatarUrl);
+          document.getElementById("avatarStatus").textContent = "Avatar created!";
+          
+          // Update the avatar display
+          const avatarImg = document.getElementById("profilePhoto");
+          avatarImg.src = avatarUrl;
+          avatarImg.alt = "Your Avatar";
+        } else {
+          document.getElementById("avatarStatus").textContent = "Failed: " + result.message;
+        }
+      } catch (error) {
+        document.getElementById("avatarStatus").textContent = "Error creating avatar";
+        console.error("Avatar creation error:", error);
+      }
+    }
+
+    function openProfile(){
+      const name = sessionStorage.getItem("username") || localStorage.getItem("username") || "Guest";
+      const email = sessionStorage.getItem("email") || localStorage.getItem("email") || "-";
+      const phone = sessionStorage.getItem("phone") || localStorage.getItem("phone") || "-";
+      document.getElementById("pName").textContent = name;
+      document.getElementById("pEmail").textContent = email;
+      document.getElementById("pPhone").textContent = phone;
+
+      let photo = sessionStorage.getItem("profilePhoto") || localStorage.getItem("profilePhoto");
+      const img = document.getElementById("profilePhoto");
+      if (photo) {
+        if (!/^https?:\/\//i.test(photo)) {
+          photo = window.location.origin + photo;
+        }
+        img.src = photo;
+      }
+      img.onerror = function(){ this.src = "https://via.placeholder.com/120"; };
+
+      // Check if avatar exists
+      const avatarUrl = localStorage.getItem("avatarUrl");
+      if (avatarUrl) {
+        document.getElementById("avatarStatus").textContent = "Avatar ready!";
+      }
+
+      document.getElementById("profileSidebar").classList.add("open");
+    }
+
+    document.addEventListener('DOMContentLoaded', function(){
+      const saved = localStorage.getItem('profilePhoto');
+      if (saved) {
+        const img = document.getElementById('profilePhoto');
+        img.src = saved;
+      }
+    });
+
+    function closeProfile(){
+      document.getElementById("profileSidebar").classList.remove("open");
+    }
+
+    // Settings functions
+    function openSettings() {
+      document.getElementById("settingsModal").style.display = "block";
+    }
+
+    function closeSettings() {
+      document.getElementById("settingsModal").style.display = "none";
+    }
+
+    function showResetPassword() {
+      closeSettings();
+      document.getElementById("resetPasswordModal").style.display = "block";
+    }
+
+    function closeResetPassword() {
+      document.getElementById("resetPasswordModal").style.display = "none";
+    }
+
+    function showResetPhoto() {
+      closeSettings();
+      document.getElementById("resetPhotoModal").style.display = "block";
+    }
+
+    function closeResetPhoto() {
+      document.getElementById("resetPhotoModal").style.display = "none";
+    }
+
+    async function changePassword() {
+      const currentPassword = document.getElementById("currentPassword").value;
+      const newPassword = document.getElementById("newPassword").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      
+      if (!currentPassword || !newPassword || !confirmPassword) {
+        alert("Please fill in all password fields");
+        return;
+      }
+      
+      if (newPassword !== confirmPassword) {
+        alert("New passwords do not match");
+        return;
+      }
+      
+      if (newPassword.length < 6) {
+        alert("Password must be at least 6 characters long");
+        return;
+      }
+      
+      const email = sessionStorage.getItem("email") || localStorage.getItem("email");
+      if (!email) {
+        alert("User not logged in");
+        return;
+      }
+      
+      try {
+        const response = await fetch('/api/change-password', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: email,
+            currentPassword: currentPassword,
+            newPassword: newPassword
+          })
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          alert("Password changed successfully!");
+          
+          // Clear the password fields
+          document.getElementById("currentPassword").value = "";
+          document.getElementById("newPassword").value = "";
+          document.getElementById("confirmPassword").value = "";
+          
+          // Close the modal
+          closeResetPassword();
+        } else {
+          alert("Error: " + result.message);
+        }
+      } catch (error) {
+        alert("Error changing password: " + error.message);
+      }
+    }
+
+    async function updatePhoto() {
+      const photoInput = document.getElementById("newPhoto");
+      if (!photoInput.files || !photoInput.files[0]) {
+        alert("Please select a photo");
+        return;
+      }
+      
+      const file = photoInput.files[0];
+      const email = sessionStorage.getItem("email") || localStorage.getItem("email");
+      
+      if (!email) {
+        alert("User not logged in");
+        return;
+      }
+      
+      // Validate file type
+      if (!file.type.match('image.*')) {
+        alert("Please select an image file");
+        return;
+      }
+      
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File size must be less than 5MB");
+        return;
+      }
+      
+      try {
+        const formData = new FormData();
+        formData.append('photo', file);
+        formData.append('email', email);
+        
+        const response = await fetch('/api/update-photo', {
+          method: 'PUT',
+          body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          // Update the profile photo
+          const profilePhoto = document.getElementById("profilePhoto");
+          profilePhoto.src = window.location.origin + result.photoPath;
+          
+          // Save to localStorage
+          localStorage.setItem("profilePhoto", result.photoPath);
+          sessionStorage.setItem("profilePhoto", result.photoPath);
+          
+          alert("Profile photo updated successfully!");
+          
+          // Close the modal
+          closeResetPhoto();
+        } else {
+          alert("Error: " + result.message);
+        }
+      } catch (error) {
+        alert("Error updating photo: " + error.message);
+      }
+    }
+
+    async function resetPhoto() {
+      const email = sessionStorage.getItem("email") || localStorage.getItem("email");
+      if (!email) {
+        alert("User not logged in");
+        return;
+      }
+      
+      try {
+        const response = await fetch('/api/reset-photo', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: email })
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          // Reset to default placeholder
+          const profilePhoto = document.getElementById("profilePhoto");
+          profilePhoto.src = "https://via.placeholder.com/120";
+          
+          // Remove from storage
+          localStorage.removeItem("profilePhoto");
+          sessionStorage.removeItem("profilePhoto");
+          
+          alert("Profile photo reset to default");
+          
+          // Close the modal
+          closeResetPhoto();
+        } else {
+          alert("Error: " + result.message);
+        }
+      } catch (error) {
+        alert("Error resetting photo: " + error.message);
+      }
+    }
+
+    function confirmDeleteAccount() {
+      closeSettings();
+      document.getElementById("confirmationDialog").style.display = "block";
+    }
+
+    function closeConfirmation() {
+      document.getElementById("confirmationDialog").style.display = "none";
+    }
+
+    async function deleteAccount() {
+      const email = sessionStorage.getItem("email") || localStorage.getItem("email");
+      if (!email) {
+        alert("User not logged in");
+        return;
+      }
+      
+      try {
+        const response = await fetch('/api/delete-account', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: email })
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          alert("Account deleted successfully!");
+          
+          // Clear all user data
+          localStorage.clear();
+          sessionStorage.clear();
+          
+          // Close modals
+          closeConfirmation();
+          
+          // Redirect to login page
+          window.location.href = "login.html";
+        } else {
+          alert("Error: " + result.message);
+        }
+      } catch (error) {
+        alert("Error deleting account: " + error.message);
+      }
+    }
+
+    function logout() {
+      // Clear user data
+      localStorage.clear();
+      sessionStorage.clear();
+      
+      // Redirect to login page
+      window.location.href = "login.html";
+    }
+
+    // Close modals when clicking outside
+    window.onclick = function(event) {
+      const settingsModal = document.getElementById("settingsModal");
+      const resetPasswordModal = document.getElementById("resetPasswordModal");
+      const resetPhotoModal = document.getElementById("resetPhotoModal");
+      const confirmationDialog = document.getElementById("confirmationDialog");
+      
+      if (event.target == settingsModal) {
+        closeSettings();
+      }
+      
+      if (event.target == resetPasswordModal) {
+        closeResetPassword();
+      }
+      
+      if (event.target == resetPhotoModal) {
+        closeResetPhoto();
+      }
+      
+      if (event.target == confirmationDialog) {
+        closeConfirmation();
+      }
+    }
+  </script>
+</body>
+</html>

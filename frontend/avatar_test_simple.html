@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avatar Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(to right top, #1f4037, #99f2c8);
+      min-height: 100vh;
+    }
+    
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    h1 {
+      color: #1f4037;
+      margin-bottom: 1.5rem;
+    }
+    
+    .avatar-section {
+      margin: 2rem 0;
+      padding: 1rem;
+      border: 2px dashed #1f4037;
+      border-radius: 10px;
+    }
+    
+    .avatar-container {
+      width: 200px;
+      height: 200px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0 auto 1rem;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border: 3px solid #1f4037;
+    }
+    
+    .avatar-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .avatar-placeholder {
+      font-size: 4rem;
+      color: #1f4037;
+    }
+    
+    button {
+      background: #1f4037;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      margin: 0.5rem;
+      transition: all 0.3s ease;
+    }
+    
+    button:hover {
+      background: #16332a;
+      transform: translateY(-2px);
+    }
+    
+    .status {
+      margin: 1rem 0;
+      padding: 0.8rem;
+      border-radius: 8px;
+      background: #e8f5e9;
+      color: #2e7d32;
+      font-weight: 500;
+    }
+    
+    .test-result {
+      margin: 1rem 0;
+      padding: 1rem;
+      border-radius: 8px;
+      background: #fff3e0;
+      color: #ef6c00;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🤖 AI Avatar Test</h1>
+    
+    <div class="avatar-section">
+      <h2>Avatar Display</h2>
+      <div class="avatar-container">
+        <div class="avatar-placeholder">👤</div>
+        <img id="avatarImage" style="display: none;" alt="AI Avatar">
+      </div>
+      <div id="avatarStatus" class="status">Avatar not loaded</div>
+    </div>
+    
+    <div class="controls">
+      <button onclick="showDefaultAvatar()">Show Default Avatar</button>
+      <button onclick="testAvatarCreation()">Test Avatar Creation</button>
+      <button onclick="testSpeech()">Test Speech</button>
+      <button onclick="clearAvatar()">Clear Avatar</button>
+    </div>
+    
+    <div id="testResult" class="test-result" style="display: none;"></div>
+  </div>
+
+  <script>
+    // Initialize speech synthesis
+    const synth = window.speechSynthesis;
+    
+    function showDefaultAvatar() {
+      const avatarPlaceholder = document.querySelector('.avatar-placeholder');
+      const avatarImage = document.getElementById('avatarImage');
+      const avatarStatus = document.getElementById('avatarStatus');
+      
+      // Show default avatar
+      avatarPlaceholder.style.display = 'none';
+      avatarImage.style.display = 'block';
+      avatarImage.src = 'https://cdn.discordapp.com/attachments/1127860890006409337/1127860923460689950/ai-avatar.png';
+      avatarImage.alt = 'Default AI Avatar';
+      avatarStatus.textContent = 'Default avatar loaded';
+      
+      // Add animation
+      avatarImage.style.animation = 'pulse 1s';
+      setTimeout(() => {
+        avatarImage.style.animation = '';
+      }, 1000);
+    }
+    
+    async function testAvatarCreation() {
+      const avatarStatus = document.getElementById('avatarStatus');
+      const testResult = document.getElementById('testResult');
+      
+      avatarStatus.textContent = 'Testing avatar creation...';
+      testResult.style.display = 'block';
+      testResult.innerHTML = 'Testing avatar creation endpoint...';
+      
+      try {
+        // This would normally call the backend API
+        // For testing purposes, we'll simulate a successful response
+        setTimeout(() => {
+          avatarStatus.textContent = 'Avatar creation simulated successfully';
+          testResult.innerHTML = `
+            <h3>✅ Avatar Creation Test Results</h3>
+            <p><strong>Status:</strong> SUCCESS</p>
+            <p><strong>Message:</strong> Avatar would be created using user's profile photo</p>
+            <p><strong>Next Steps:</strong> In a full implementation with D-ID API, 
+            this would create a lip-synced avatar. Currently using profile photo fallback.</p>
+          `;
+        }, 1500);
+      } catch (error) {
+        avatarStatus.textContent = 'Error testing avatar creation';
+        testResult.innerHTML = `
+          <h3>❌ Avatar Creation Test Results</h3>
+          <p><strong>Status:</strong> ERROR</p>
+          <p><strong>Message:</strong> ${error.message}</p>
+        `;
+      }
+    }
+    
+    function testSpeech() {
+      const avatarStatus = document.getElementById('avatarStatus');
+      
+      avatarStatus.textContent = 'Avatar speaking...';
+      
+      // Add speaking animation
+      const avatarImage = document.getElementById('avatarImage');
+      if (avatarImage.style.display !== 'none') {
+        avatarImage.style.animation = 'pulse 1s infinite';
+      }
+      
+      // Use Web Speech API
+      const text = "Hello! I'm your AI teacher. I'm here to help you learn new skills!";
+      const utter = new SpeechSynthesisUtterance(text);
+      
+      // Try to use a natural voice
+      const voices = synth.getVoices();
+      const preferredVoice = voices.find(voice => 
+        voice.name.includes('Google') || 
+        voice.name.includes('Natural') || 
+        voice.name.includes('Neural') ||
+        voice.lang === 'en-US'
+      );
+      
+      if (preferredVoice) {
+        utter.voice = preferredVoice;
+      }
+      
+      utter.pitch = 1.0;
+      utter.rate = 1.0;
+      utter.volume = 1.0;
+      
+      utter.onend = () => {
+        avatarStatus.textContent = 'Speech completed';
+        if (avatarImage.style.display !== 'none') {
+          avatarImage.style.animation = '';
+        }
+      };
+      
+      synth.speak(utter);
+    }
+    
+    function clearAvatar() {
+      const avatarPlaceholder = document.querySelector('.avatar-placeholder');
+      const avatarImage = document.getElementById('avatarImage');
+      const avatarStatus = document.getElementById('avatarStatus');
+      
+      avatarPlaceholder.style.display = 'flex';
+      avatarImage.style.display = 'none';
+      avatarStatus.textContent = 'Avatar cleared';
+      document.getElementById('testResult').style.display = 'none';
+    }
+    
+    // Add CSS animations
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>

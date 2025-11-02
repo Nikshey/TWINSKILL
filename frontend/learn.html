@@ -1,0 +1,4006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning - Twinskill</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #1f4037;
+      font-size: 24px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #1f4037;
+      font-weight: bold;
+    }
+
+    .learning {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    #skillTitle {
+      color: #fff;
+      font-size: 22px;
+      margin-bottom: 1rem;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .main-content {
+      display: flex;
+      width: 100%;
+      gap: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .chat-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-box {
+      width: 100%;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+    }
+
+    .chat-box p {
+      margin: 0.5rem 0;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .controls {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: center;
+    }
+
+    .controls button {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      padding: 0.7rem 1.4rem;
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      font-size: 1rem;
+    }
+
+    .controls button:hover {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .controls button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .bot {
+      color: #1f4037;
+    }
+
+    .user {
+      color: #000;
+    }
+
+    .lesson-progress {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 10px;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background: #e0e0e0;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #4CAF50;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .topic-nav {
+      display: flex;
+      gap: 0.5rem;
+      margin: 0.5rem 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .topic-btn {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .topic-btn:hover {
+      background: linear-gradient(135deg, #ff4b2b, #ff416c);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .topic-btn:active {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .chess-section {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      margin-top: 1rem;
+      display: none;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .chess-section.active {
+      display: block;
+    }
+
+    .chess-config {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .config-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .config-group label {
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+
+    .config-group select, .config-group button {
+      padding: 0.7rem 1.4rem;
+      border-radius: 50px;
+      border: none;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .config-group select:hover, .config-group button:hover {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .config-group select:focus, .config-group button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.5);
+    }
+
+    .config-group select:active, .config-group button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .config-group button {
+      cursor: pointer;
+    }
+
+    .chessboard-container {
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+      padding: 0.5rem;
+      background: rgba(31, 64, 55, 0.3);
+      border-radius: 10px;
+    }
+
+    .chessboard {
+      border-collapse: collapse;
+      border: 2px solid #1f4037;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .chessboard td {
+      width: 45px;
+      height: 45px;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 28px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .chessboard .light {
+      background-color: rgba(240, 217, 181, 0.8);
+    }
+
+    .chessboard .dark {
+      background-color: rgba(181, 136, 99, 0.8);
+    }
+
+    .chessboard .selected {
+      background-color: rgba(174, 198, 207, 0.8);
+    }
+
+    .chessboard .possible-move {
+      position: relative;
+    }
+
+    .chessboard .possible-move::after {
+      content: "";
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background-color: rgba(76, 175, 80, 0.7);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .chessboard .suggested-move {
+      position: relative;
+    }
+
+    .chessboard .suggested-move::before {
+      content: "";
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      border: 2px dashed #4CAF50;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .coordinates {
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .coordinate-file {
+      text-align: center;
+      padding: 2px;
+    }
+
+    .coordinate-rank {
+      text-align: center;
+      padding: 2px;
+      vertical-align: middle;
+    }
+
+    .status-bar {
+      text-align: center;
+      padding: 0.7rem;
+      font-weight: bold;
+      color: white;
+      background: rgba(31, 64, 55, 0.7);
+      border-radius: 10px;
+      margin-top: 1rem;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Piano Styles */
+    .piano-section {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      margin-top: 1rem;
+      display: none;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .piano-section.active {
+      display: block;
+    }
+
+    .piano-container {
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+
+    .piano {
+      display: flex;
+      position: relative;
+      user-select: none;
+      padding: 10px;
+      background: #1f4037;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .key {
+      position: relative;
+      cursor: pointer;
+      transition: all 0.1s ease;
+    }
+
+    .white {
+      width: 40px;
+      height: 200px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 0 0 5px 5px;
+      z-index: 1;
+      box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .white.active {
+      background: #4CAF50;
+      transform: translateY(2px);
+      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .black {
+      width: 25px;
+      height: 120px;
+      background: #333;
+      border-radius: 0 0 3px 3px;
+      margin: 0 -12.5px;
+      z-index: 2;
+      box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .black.active {
+      background: #8BC34A;
+      transform: translateY(2px);
+      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .song-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+
+    .song-btn {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.4rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      font-size: 1rem;
+    }
+
+    .song-btn:hover {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .song-btn:active {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .song-btn.active {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      box-shadow: 0 0 15px rgba(255, 65, 108, 0.7);
+      transform: translateY(-3px);
+    }
+
+    .song-guide {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 1rem;
+      text-align: center;
+      color: white;
+      font-weight: 500;
+    }
+
+    .key-highlight {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: pulseKey 1s infinite;
+    }
+
+    @keyframes pulseKey {
+      0% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.5); opacity: 0.3; }
+      100% { transform: scale(1); opacity: 0.7; }
+    }
+
+    /* Yoga Styles */
+    .yoga-section {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      margin-top: 1rem;
+      display: none;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      text-align: center;
+    }
+
+    .yoga-section.active {
+      display: block;
+    }
+
+    .pose-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 1rem 0;
+    }
+
+    .pose-animation {
+      width: 200px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      margin: 1rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      animation: yogaPose 3s infinite;
+    }
+
+    @keyframes yogaPose {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .pose-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      margin: 1rem 0;
+    }
+
+    .pose-description {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 1rem 0;
+      color: white;
+      font-weight: 500;
+    }
+
+    .pose-nav {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      justify-content: center;
+    }
+
+    .pose-nav button {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.4rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      font-size: 1rem;
+    }
+
+    .pose-nav button:hover {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .pose-nav button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Programming Styles */
+    .programming-section {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      margin-top: 1rem;
+      display: none;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .programming-section.active {
+      display: block;
+    }
+
+    .code-playground {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .editor-container, .output-container {
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .editor-header, .output-header {
+      background: rgba(31, 64, 55, 0.9);
+      padding: 0.8rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .editor-header select, .editor-header button, .output-header button {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      border: none;
+      padding: 0.7rem 1.4rem;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      font-size: 1rem;
+    }
+
+    .editor-header select {
+      width: 150px;
+    }
+
+    .editor-header button:hover, .output-header button:hover {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .editor-header button:active, .output-header button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #codeEditor {
+      width: 100%;
+      height: 250px;
+      background: #1e1e1e;
+      color: #d4d4d4;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 14px;
+      padding: 1rem;
+      border: none;
+      resize: none;
+      outline: none;
+    }
+
+    .output-content {
+      min-height: 150px;
+      padding: 1rem;
+      color: #d4d4d4;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 14px;
+      white-space: pre-wrap;
+      overflow-y: auto;
+      max-height: 200px;
+    }
+
+    .programming-guide {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 1rem;
+      color: white;
+    }
+
+    .programming-guide h3 {
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+
+    .examples-container {
+      margin-top: 1rem;
+    }
+
+    .examples-container h4 {
+      margin-bottom: 0.5rem;
+    }
+
+    .example-buttons {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .example-buttons button {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      font-size: 0.9rem;
+    }
+
+    .example-buttons button:hover {
+      background: linear-gradient(135deg, #ff4b2b, #ff416c);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .example-buttons button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .example-buttons button {
+      background: rgba(31, 64, 55, 0.7);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 0.4rem 0.8rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .example-buttons button:hover {
+      background: rgba(31, 64, 55, 0.9);
+      transform: translateY(-2px);
+    }
+
+    /* Avatar section */
+    .avatar-section {
+      width: 300px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      padding: 1rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .avatar-container {
+      width: 200px;
+      height: 200px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border: 3px solid #1f4037;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .avatar-container:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .avatar-container img, .avatar-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 7px;
+    }
+
+    .avatar-placeholder {
+      font-size: 4rem;
+      color: #1f4037;
+    }
+
+    .avatar-controls {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .avatar-btn {
+      background: #1f4037;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .avatar-btn:hover {
+      background: #16332a;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .avatar-status {
+      font-size: 0.9rem;
+      color: #1f4037;
+      font-weight: 500;
+      margin-top: 0.5rem;
+      height: 1.2rem;
+    }
+
+    /* Animation styles for avatar */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    @keyframes pulseFemale {
+      0% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(1.03) rotate(1deg); }
+      50% { transform: scale(1.05) rotate(-1deg); }
+      75% { transform: scale(1.03) rotate(1deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+    
+    @keyframes pulseMale {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+    
+    @keyframes lipMovement {
+      0% { transform: scaleY(1); border-radius: 0 0 25px 25px; }
+      25% { transform: scaleY(0.3); border-radius: 0 0 15px 15px; }
+      50% { transform: scaleY(1); border-radius: 0 0 25px 25px; }
+      75% { transform: scaleY(0.5); border-radius: 0 0 20px 20px; }
+      100% { transform: scaleY(1); border-radius: 0 0 25px 25px; }
+    }
+    
+    @keyframes headNod {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0); }
+    }
+    
+    @keyframes blink {
+      0% { height: 20px; }
+      95% { height: 20px; }
+      97% { height: 2px; }
+      100% { height: 20px; }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    @keyframes speak {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.02); }
+      50% { transform: scale(0.98); }
+      75% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+    
+    @keyframes eyeMovement {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(2px, 0); }
+      50% { transform: translate(0, 0); }
+      75% { transform: translate(-2px, 0); }
+      100% { transform: translate(0, 0); }
+    }
+    
+    /* Enhanced avatar animation styles */
+    @keyframes enhancedLipMovement {
+      0% { transform: scaleY(1); border-radius: 0 0 30px 30px; }
+      10% { transform: scaleY(0.4); border-radius: 0 0 15px 15px; }
+      20% { transform: scaleY(0.8); border-radius: 0 0 25px 25px; }
+      30% { transform: scaleY(0.3); border-radius: 0 0 10px 10px; }
+      40% { transform: scaleY(0.9); border-radius: 0 0 28px 28px; }
+      50% { transform: scaleY(0.2); border-radius: 0 0 8px 8px; }
+      60% { transform: scaleY(0.7); border-radius: 0 0 23px 23px; }
+      70% { transform: scaleY(0.4); border-radius: 0 0 15px 15px; }
+      80% { transform: scaleY(0.85); border-radius: 0 0 27px 27px; }
+      90% { transform: scaleY(0.35); border-radius: 0 0 12px 12px; }
+      100% { transform: scaleY(1); border-radius: 0 0 30px 30px; }
+    }
+    
+    @keyframes femaleSpeaking {
+      0% { transform: scale(1); filter: brightness(1); }
+      25% { transform: scale(1.03); filter: brightness(1.05); }
+      50% { transform: scale(1); filter: brightness(1); }
+      75% { transform: scale(1.02); filter: brightness(1.02); }
+      100% { transform: scale(1); filter: brightness(1); }
+    }
+    
+    @keyframes maleSpeaking {
+      0% { transform: scale(1); }
+      33% { transform: scale(1.02); }
+      66% { transform: scale(0.99); }
+      100% { transform: scale(1); }
+    }
+    
+    @keyframes expressiveBlink {
+      0% { height: 20px; }
+      45% { height: 20px; }
+      47% { height: 2px; }
+      49% { height: 20px; }
+      95% { height: 20px; }
+      97% { height: 2px; }
+      99% { height: 20px; }
+      100% { height: 20px; }
+    }
+    
+    @keyframes thoughtfulNod {
+      0% { transform: translateY(0); }
+      25% { transform: translateY(-5px); }
+      50% { transform: translateY(0); }
+      75% { transform: translateY(-3px); }
+      100% { transform: translateY(0); }
+    }
+    
+    @media (max-width: 768px) {
+      .main-content {
+        flex-direction: column;
+      }
+      
+      .avatar-section {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+      
+      .chessboard td {
+        width: 35px;
+        height: 35px;
+        font-size: 24px;
+      }
+      
+      .white {
+        width: 30px;
+        height: 150px;
+      }
+      
+      .black {
+        width: 20px;
+        height: 90px;
+        margin: 0 -10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Twinskill Learning</h1>
+    <nav><a href="landing.html">🏠 Home</a> | <a href="dashboard.html">⬅ Back</a></nav>
+  </header>
+
+  <section class="learning">
+    <h2 id="skillTitle">Skill Session</h2>
+
+    <div class="lesson-progress">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <div class="topic-nav" id="topicNav">
+      <!-- Topic buttons will be added here dynamically -->
+    </div>
+
+    <div class="main-content">
+      <div class="avatar-section">
+        <h3>AI Teacher</h3>
+        <div class="avatar-container">
+          <div class="avatar-placeholder">🤖</div>
+          <img id="avatarImage" style="display: none;" alt="AI Avatar">
+          <video id="avatarVideo" style="display: none;" autoplay muted></video>
+        </div>
+        <div class="avatar-controls">
+          <button class="avatar-btn" onclick="showAvatar()">Show Avatar</button>
+          <button class="avatar-btn" onclick="hideAvatar()">Hide Avatar</button>
+        </div>
+        <div class="avatar-status" id="avatarStatus">Avatar not loaded</div>
+      </div>
+      
+      <div class="chat-section">
+        <div class="chat-box" id="chatBox">
+          <p class="bot"><b>AI Teacher:</b> Hello 👋 I'm your AI teacher, ready to teach you!</p>
+        </div>
+        
+        <input type="text" id="userInput" placeholder="Ask me anything about the skill..." onkeydown="sendMessage(event)">
+        
+        <div class="controls">
+          <button onclick="startLesson()">Start Lesson</button>
+          <button onclick="nextTopic()">Next Topic</button>
+          <button onclick="stopVoice()">Stop Voice</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="chess-section" id="chessSection">
+      <div class="chess-config">
+        <div class="config-group">
+          <label for="difficulty">Difficulty</label>
+          <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium" selected>Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+        <div class="config-group">
+          <label for="playerColor">Your Color</label>
+          <select id="playerColor" onchange="changePlayerColor()">
+            <option value="white">White</option>
+            <option value="black">Black</option>
+          </select>
+        </div>
+        <div class="config-group">
+          <label for="helpMode">Help Mode</label>
+          <button id="helpModeBtn" onclick="toggleHelpMode()">Play with Help: OFF</button>
+        </div>
+        <div class="config-group">
+          <label for="resetBoard">Actions</label>
+          <button onclick="resetBoard()">Reset Board</button>
+        </div>
+      </div>
+      
+      <div class="chessboard-container">
+        <table class="chessboard" id="chessboard">
+          <!-- Chessboard will be generated by JavaScript -->
+        </table>
+      </div>
+      
+      <div class="status-bar" id="statusBar">
+        White to move
+      </div>
+    </div>
+
+    <div class="piano-section" id="pianoSection">
+      <div class="song-selector" id="songSelector">
+        <!-- Song buttons will be added here dynamically -->
+      </div>
+      
+      <div class="piano-container">
+        <div class="piano" id="piano">
+          <!-- Piano keys will be generated by JavaScript -->
+        </div>
+      </div>
+      
+      <div class="song-guide" id="songGuide">
+        Select a song to begin learning
+      </div>
+    </div>
+
+    <div class="yoga-section" id="yogaSection">
+      <div class="pose-container">
+        <div class="pose-animation" id="poseAnimation">🧘</div>
+        <div class="pose-name" id="poseName">Mountain Pose</div>
+        <div class="pose-description" id="poseDescription">
+          Stand with your feet together, arms at your sides, and distribute your weight evenly.
+        </div>
+        <div class="pose-nav">
+          <button onclick="prevPose()">Previous Pose</button>
+          <button onclick="nextPose()">Next Pose</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Programming Section -->
+    <div class="programming-section" id="programmingSection">
+      <div class="code-playground">
+        <div class="editor-container">
+          <div class="editor-header">
+            <select id="languageSelector" onchange="changeLanguage()">
+              <option value="c">C</option>
+              <option value="cpp">C++</option>
+              <option value="java">Java</option>
+              <option value="python">Python</option>
+              <option value="sql">SQL</option>
+            </select>
+            <button onclick="runCode()">▶ Run Code</button>
+            <button onclick="clearOutput()">🗑️ Clear</button>
+          </div>
+          <textarea id="codeEditor" placeholder="Write your code here...">// Welcome to the code playground!
+// Select a language and start coding
+
+#include &lt;stdio.h&gt;
+
+int main() {
+    printf("Hello, World!\n");
+    return 0;
+}</textarea>
+        </div>
+        <div class="output-container">
+          <div class="output-header">
+            <span>Output</span>
+            <button onclick="clearOutput()">Clear</button>
+          </div>
+          <div class="output-content" id="codeOutput">
+            Click "Run Code" to execute your program
+          </div>
+        </div>
+      </div>
+      <div class="programming-guide">
+        <h3>Programming Guide</h3>
+        <p id="languageGuide">
+          C is a powerful general-purpose programming language. It can be used to develop software like operating systems, databases, compilers, and more.
+        </p>
+        <div class="examples-container">
+          <h4>Common Examples:</h4>
+          <div class="example-buttons">
+            <button onclick="loadExample('hello')">Hello World</button>
+            <button onclick="loadExample('loop')">Loop Example</button>
+            <button onclick="loadExample('function')">Function Example</button>
+            <button onclick="loadExample('variables')">Variables</button>
+            <button onclick="loadExample('conditionals')">Conditionals</button>
+            <button onclick="loadExample('arrays')">Arrays</button>
+            <button onclick="loadExample('pointers')">Pointers</button>
+            <button onclick="loadExample('classes')">Classes</button>
+            <button onclick="loadExample('file_io')">File I/O</button>
+            <button onclick="loadExample('recursion')">Recursion</button>
+            <button onclick="loadExample('exceptions')">Exceptions</button>
+            <button onclick="loadExample('aggregation')">Aggregation</button>
+            <button onclick="loadExample('joins')">Joins</button>
+            <button onclick="loadExample('subqueries')">Subqueries</button>
+            <button onclick="loadExample('transactions')">Transactions</button>
+          </div>
+        </div>
+        <!-- Question Section -->
+        <div class="question-section" style="margin-top: 20px; padding: 15px; background: rgba(255, 255, 255, 0.2); border-radius: 10px;">
+          <h4>Ask a Programming Question:</h4>
+          <input type="text" id="questionInput" placeholder="e.g., What is a variable in Python?" style="width: 100%; padding: 12px; border-radius: 50px; border: 2px solid #3498db; margin: 10px 0; font-size: 1rem;" onkeydown="if(event.key === 'Enter') answerQuestion()">
+          <button onclick="answerQuestion()" style="background: linear-gradient(135deg, #6a11cb, #2575fc); color: white; border: none; padding: 12px 20px; border-radius: 50px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); font-size: 1rem;" onmouseover="this.style.background='linear-gradient(135deg, #2575fc, #6a11cb)'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 15px rgba(0, 0, 0, 0.3)';" onmouseout="this.style.background='linear-gradient(135deg, #6a11cb, #2575fc)'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(0, 0, 0, 0.2)';">Get Explanation</button>
+          <div id="questionAnswer" style="margin-top: 15px; padding: 10px; background: rgba(255, 255, 255, 0.3); border-radius: 5px; display: none;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const synth = window.speechSynthesis;
+    let isSpeaking = false;
+    let currentLesson = null;
+    let currentTopicIndex = 0;
+    let selectedPiece = null;
+    let possibleMoves = [];
+    let currentPlayer = 'white';
+    let playerColor = 'white';
+    let gameActive = true;
+    let helpMode = false;
+    let suggestedMove = null;
+    let audioContext = null;
+    let currentSong = null;
+    let songTimeout = null;
+    let currentPoseIndex = 0;
+    let avatarUrl = null;
+
+    // Chess game state
+    let board = [
+      ['br', 'bn', 'bb', 'bq', 'bk', 'bb', 'bn', 'br'],
+      ['bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp'],
+      ['', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', ''],
+      ['wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp'],
+      ['wr', 'wn', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr']
+    ];
+
+    // Common yoga poses
+    const yogaPoses = [
+      {
+        name: "Mountain Pose (Tadasana)",
+        symbol: "🧘",
+        description: "Stand with your feet together, arms at your sides, and distribute your weight evenly. Engage your thighs, draw your belly in, and lift your chest. This is the foundation for all standing poses."
+      },
+      {
+        name: "Downward-Facing Dog (Adho Mukha Svanasana)",
+        symbol: "🐕",
+        description: "Start on your hands and knees. Lift your hips up and back, forming an inverted V shape. Press your hands into the mat, straighten your legs, and try to bring your heels toward the floor."
+      },
+      {
+        name: "Warrior I (Virabhadrasana I)",
+        symbol: "💪",
+        description: "Step one foot back, turning it out at a 45-degree angle. Bend your front knee over your ankle. Raise your arms overhead, keeping your shoulders relaxed and gaze forward."
+      },
+      {
+        name: "Warrior II (Virabhadrasana II)",
+        symbol: "🏹",
+        description: "From Warrior I, open your hips to the side. Extend your arms parallel to the floor, gazing over your front fingertips. Keep your front knee bent and back leg straight."
+      },
+      {
+        name: "Tree Pose (Vrksasana)",
+        symbol: "🌳",
+        description: "Stand on one leg, placing the sole of the other foot on your inner calf or thigh (avoid the knee). Bring your hands together at your chest or overhead for balance."
+      },
+      {
+        name: "Child's Pose (Balasana)",
+        symbol: "👶",
+        description: "Kneel on the floor, touch your big toes together, and sit on your heels. Separate your knees about hip-width apart and fold forward, extending your arms in front of you."
+      },
+      {
+        name: "Cobra Pose (Bhujangasana)",
+        symbol: "🐍",
+        description: "Lie on your stomach with your hands under your shoulders. Press into your hands to lift your chest off the floor, keeping your elbows slightly bent and shoulders away from your ears."
+      },
+      {
+        name: "Bridge Pose (Setu Bandhasana)",
+        symbol: "🌉",
+        description: "Lie on your back with knees bent and feet hip-width apart. Press your feet and arms into the floor to lift your hips. Clasp your hands under your body and roll your shoulders under."
+      }
+    ];
+
+    // Programming language templates
+    const languageTemplates = {
+      'c': `#include <stdio.h>
+
+int main() {
+    printf("Hello, World!\\n");
+    return 0;
+}`,
+      'cpp': `#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello, World!" << endl;
+    return 0;
+}`,
+      'java': `public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}`,
+      'python': `print("Hello, World!")`,
+      'sql': `SELECT 'Hello, World!' AS message;`
+    };
+
+    // Programming language guides
+    const languageGuides = {
+      'c': 'C is a powerful general-purpose programming language. It can be used to develop software like operating systems, databases, compilers, and more.',
+      'cpp': 'C++ is an extension of C that adds object-oriented programming features. It is used for system/software development, game development, and high-performance applications.',
+      'java': 'Java is a high-level, class-based, object-oriented programming language. It is designed to have as few implementation dependencies as possible and is used for web, mobile, and enterprise applications.',
+      'python': 'Python is an interpreted, high-level, general-purpose programming language. It is known for its simplicity and readability, making it great for beginners and experts alike.',
+      'sql': 'SQL (Structured Query Language) is used to communicate with databases. It is used to perform tasks such as updating data, retrieving data, and creating database structures.'
+    };
+
+    // Example code templates
+    const exampleCodes = {
+      'c': {
+        'hello': `#include <stdio.h>
+
+int main() {
+    printf("Hello, World!\\n");
+    return 0;
+}`,
+        'loop': `#include <stdio.h>
+
+int main() {
+    for (int i = 1; i <= 5; i++) {
+        printf("Iteration %d\\n", i);
+    }
+    return 0;
+}`,
+        'function': `#include <stdio.h>
+
+int add(int a, int b) {
+    return a + b;
+}
+
+int main() {
+    int result = add(5, 3);
+    printf("5 + 3 = %d\\n", result);
+    return 0;
+}`,
+        'variables': `#include <stdio.h>
+
+int main() {
+    int age = 25;
+    float height = 5.9;
+    char grade = 'A';
+    
+    printf("Age: %d\\n", age);
+    printf("Height: %.1f\\n", height);
+    printf("Grade: %c\\n", grade);
+    
+    return 0;
+}`,
+        'conditionals': `#include <stdio.h>
+
+int main() {
+    int number = 15;
+    
+    if (number > 10) {
+        printf("Number is greater than 10\\n");
+    } else {
+        printf("Number is 10 or less\\n");
+    }
+    
+    return 0;
+}`,
+        'arrays': `#include <stdio.h>
+
+int main() {
+    int numbers[5] = {10, 20, 30, 40, 50};
+    
+    printf("Array elements:\\n");
+    for (int i = 0; i < 5; i++) {
+        printf("numbers[%d] = %d\\n", i, numbers[i]);
+    }
+    
+    return 0;
+}`,
+        'pointers': `#include <stdio.h>
+
+int main() {
+    int value = 42;
+    int *ptr = &value;
+    
+    printf("Value: %d\\n", value);
+    printf("Address of value: %p\\n", &value);
+    printf("Pointer value: %p\\n", ptr);
+    printf("Value via pointer: %d\\n", *ptr);
+    
+    return 0;
+}`,
+        'structures': `#include <stdio.h>
+#include <string.h>
+
+struct Student {
+    char name[50];
+    int age;
+    float gpa;
+};
+
+int main() {
+    struct Student s1;
+    
+    strcpy(s1.name, "John Doe");
+    s1.age = 20;
+    s1.gpa = 3.75;
+    
+    printf("Student: %s, Age: %d, GPA: %.2f\\n", s1.name, s1.age, s1.gpa);
+    
+    return 0;
+}`,
+        'file_io': `#include <stdio.h>
+
+int main() {
+    FILE *file = fopen("example.txt", "w");
+    
+    if (file == NULL) {
+        printf("Error opening file!\\n");
+        return 1;
+    }
+    
+    fprintf(file, "Hello, File!\\n");
+    fclose(file);
+    
+    printf("Data written to file successfully!\\n");
+    
+    return 0;
+}`,
+        'recursion': `#include <stdio.h>
+
+int factorial(int n) {
+    if (n <= 1) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}
+
+int main() {
+    int num = 5;
+    printf("Factorial of %d is %d\\n", num, factorial(num));
+    
+    return 0;
+}`
+      },
+      'python': {
+        'hello': `print("Hello, World!")`,
+        'loop': `for i in range(1, 6):
+    print(f"Iteration {i}")`,
+        'function': `def add(a, b):
+    return a + b
+
+result = add(5, 3)
+print(f"5 + 3 = {result}")`,
+        'variables': `# Variables in Python
+age = 25
+height = 5.9
+grade = 'A'
+name = "John"
+is_student = True
+
+print(f"Name: {name}")
+print(f"Age: {age}")
+print(f"Height: {height}")
+print(f"Grade: {grade}")
+print(f"Is Student: {is_student}")`,
+        'conditionals': `number = 15
+
+if number > 10:
+    print("Number is greater than 10")
+else:
+    print("Number is 10 or less")`,
+        'arrays': `# Lists in Python
+numbers = [10, 20, 30, 40, 50]
+
+print("Array elements:")
+for i, num in enumerate(numbers):
+    print(f"numbers[{i}] = {num}")`,
+        'classes': `class Student:
+    def __init__(self, name, age, gpa):
+        self.name = name
+        self.age = age
+        self.gpa = gpa
+    
+    def display_info(self):
+        print(f"Student: {self.name}, Age: {self.age}, GPA: {self.gpa}")
+
+# Create and use a Student object
+s1 = Student("John Doe", 20, 3.75)
+s1.display_info()`,
+        'file_io': `# Writing to a file
+try:
+    with open("example.txt", "w") as file:
+        file.write("Hello, File!\\n")
+    print("Data written to file successfully!")
+except IOError as e:
+    print(f"An error occurred: {e}")`,
+        'recursion': `def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+
+num = 5
+print(f"Factorial of {num} is {factorial(num)}")`,
+        'exceptions': `try:
+    result = 10 / 0
+    print(f"Result: {result}")
+except ZeroDivisionError as e:
+    print(f"Cannot divide by zero: {e}")
+finally:
+    print("This block always executes")`
+      },
+      'cpp': {
+        'hello': `#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello, World!" << endl;
+    return 0;
+}`,
+        'loop': `#include <iostream>
+using namespace std;
+
+int main() {
+    for (int i = 1; i <= 5; i++) {
+        cout << "Iteration " << i << endl;
+    }
+    return 0;
+}`,
+        'function': `#include <iostream>
+using namespace std;
+
+int add(int a, int b) {
+    return a + b;
+}
+
+int main() {
+    int result = add(5, 3);
+    cout << "5 + 3 = " << result << endl;
+    return 0;
+}`,
+        'variables': `#include <iostream>
+using namespace std;
+
+int main() {
+    int age = 25;
+    float height = 5.9f;
+    char grade = 'A';
+    string name = "John";
+    
+    cout << "Name: " << name << endl;
+    cout << "Age: " << age << endl;
+    cout << "Height: " << height << endl;
+    cout << "Grade: " << grade << endl;
+    
+    return 0;
+}`,
+        'conditionals': `#include <iostream>
+using namespace std;
+
+int main() {
+    int number = 15;
+    
+    if (number > 10) {
+        cout << "Number is greater than 10" << endl;
+    } else {
+        cout << "Number is 10 or less" << endl;
+    }
+    
+    return 0;
+}`,
+        'arrays': `#include <iostream>
+using namespace std;
+
+int main() {
+    int numbers[5] = {10, 20, 30, 40, 50};
+    
+    cout << "Array elements:" << endl;
+    for (int i = 0; i < 5; i++) {
+        cout << "numbers[" << i << "] = " << numbers[i] << endl;
+    }
+    
+    return 0;
+}`,
+        'pointers': `#include <iostream>
+using namespace std;
+
+int main() {
+    int value = 42;
+    int *ptr = &value;
+    
+    cout << "Value: " << value << endl;
+    cout << "Address of value: " << &value << endl;
+    cout << "Pointer value: " << ptr << endl;
+    cout << "Value via pointer: " << *ptr << endl;
+    
+    return 0;
+}`,
+        'classes': `#include <iostream>
+using namespace std;
+
+class Student {
+public:
+    string name;
+    int age;
+    float gpa;
+    
+    void displayInfo() {
+        cout << "Student: " << name << ", Age: " << age << ", GPA: " << gpa << endl;
+    }
+};
+
+int main() {
+    Student s1;
+    s1.name = "John Doe";
+    s1.age = 20;
+    s1.gpa = 3.75;
+    
+    s1.displayInfo();
+    
+    return 0;
+}`,
+        'file_io': `#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main() {
+    ofstream file("example.txt");
+    
+    if (!file.is_open()) {
+        cout << "Error opening file!" << endl;
+        return 1;
+    }
+    
+    file << "Hello, File!" << endl;
+    file.close();
+    
+    cout << "Data written to file successfully!" << endl;
+    
+    return 0;
+}`,
+        'recursion': `#include <iostream>
+using namespace std;
+
+int factorial(int n) {
+    if (n <= 1) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}
+
+int main() {
+    int num = 5;
+    cout << "Factorial of " << num << " is " << factorial(num) << endl;
+    
+    return 0;
+}`
+      },
+      'java': {
+        'hello': `public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}`,
+        'loop': `public class Main {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println("Iteration " + i);
+        }
+    }
+}`,
+        'function': `public class Main {
+    public static int add(int a, int b) {
+        return a + b;
+    }
+    
+    public static void main(String[] args) {
+        int result = add(5, 3);
+        System.out.println("5 + 3 = " + result);
+    }
+}`,
+        'variables': `public class Main {
+    public static void main(String[] args) {
+        int age = 25;
+        double height = 5.9;
+        char grade = 'A';
+        String name = "John";
+        boolean isStudent = true;
+        
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+        System.out.println("Height: " + height);
+        System.out.println("Grade: " + grade);
+        System.out.println("Is Student: " + isStudent);
+    }
+}`,
+        'conditionals': `public class Main {
+    public static void main(String[] args) {
+        int number = 15;
+        
+        if (number > 10) {
+            System.out.println("Number is greater than 10");
+        } else {
+            System.out.println("Number is 10 or less");
+        }
+    }
+}`,
+        'arrays': `public class Main {
+    public static void main(String[] args) {
+        int[] numbers = {10, 20, 30, 40, 50};
+        
+        System.out.println("Array elements:");
+        for (int i = 0; i < numbers.length; i++) {
+            System.out.println("numbers[" + i + "] = " + numbers[i]);
+        }
+    }
+}`,
+        'classes': `class Student {
+    String name;
+    int age;
+    double gpa;
+    
+    void displayInfo() {
+        System.out.println("Student: " + name + ", Age: " + age + ", GPA: " + gpa);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Student s1 = new Student();
+        s1.name = "John Doe";
+        s1.age = 20;
+        s1.gpa = 3.75;
+        
+        s1.displayInfo();
+    }
+}`,
+        'file_io': `import java.io.FileWriter;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            FileWriter file = new FileWriter("example.txt");
+            file.write("Hello, File!\\n");
+            file.close();
+            System.out.println("Data written to file successfully!");
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}`,
+        'recursion': `public class Main {
+    public static int factorial(int n) {
+        if (n <= 1) {
+            return 1;
+        }
+        return n * factorial(n - 1);
+    }
+    
+    public static void main(String[] args) {
+        int num = 5;
+        System.out.println("Factorial of " + num + " is " + factorial(num));
+    }
+}`,
+        'exceptions': `public class Main {
+    public static void main(String[] args) {
+        try {
+            int result = 10 / 0;
+            System.out.println("Result: " + result);
+        } catch (ArithmeticException e) {
+            System.out.println("Cannot divide by zero: " + e.getMessage());
+        } finally {
+            System.out.println("This block always executes");
+        }
+    }
+}`
+      },
+      'python': {
+        'hello': `print("Hello, World!")`,
+        'loop': `for i in range(1, 6):
+    print(f"Iteration {i}")`,
+        'function': `def add(a, b):
+    return a + b
+
+result = add(5, 3)
+print(f"5 + 3 = {result}")`
+      },
+      'sql': {
+        'hello': `SELECT 'Hello, World!' AS message;`,
+        'loop': `-- SQL doesn't have traditional loops like other languages
+-- Here's an example using a recursive CTE to generate numbers
+WITH RECURSIVE numbers AS (
+    SELECT 1 AS n
+    UNION ALL
+    SELECT n + 1 FROM numbers WHERE n < 5
+)
+SELECT 'Iteration ' || n AS message FROM numbers;`,
+        'function': `-- SQL uses functions/procedures differently
+-- Here's a simple function example (syntax may vary by database)
+CREATE FUNCTION add_numbers(a INT, b INT)
+RETURNS INT
+AS $$
+BEGIN
+    RETURN a + b;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Then you would call it like:
+-- SELECT add_numbers(5, 3) AS result;`,
+        'variables': `-- Declare and use variables (syntax varies by database)
+-- Example for SQL Server:
+DECLARE @age INT = 25;
+DECLARE @name VARCHAR(50) = 'John';
+DECLARE @height DECIMAL(3,1) = 5.9;
+
+SELECT @name AS Name, @age AS Age, @height AS Height;`,
+        'conditionals': `-- Conditional logic in SQL (example for SQL Server)
+DECLARE @number INT = 15;
+
+IF @number > 10
+    SELECT 'Number is greater than 10' AS Result;
+ELSE
+    SELECT 'Number is 10 or less' AS Result;`,
+        'arrays': `-- Working with arrays in SQL (PostgreSQL example)
+SELECT unnest(ARRAY[10, 20, 30, 40, 50]) AS numbers;`,
+        'joins': `-- Different types of JOINs
+-- Sample tables for demonstration
+CREATE TABLE customers (
+    id INT PRIMARY KEY,
+    name VARCHAR(50)
+);
+
+CREATE TABLE orders (
+    id INT PRIMARY KEY,
+    customer_id INT,
+    amount DECIMAL(10,2)
+);
+
+-- INNER JOIN
+SELECT c.name, o.amount
+FROM customers c
+INNER JOIN orders o ON c.id = o.customer_id;
+
+-- LEFT JOIN
+SELECT c.name, o.amount
+FROM customers c
+LEFT JOIN orders o ON c.id = o.customer_id;`,
+        'aggregation': `-- Aggregation functions
+SELECT 
+    COUNT(*) AS total_records,
+    AVG(salary) AS average_salary,
+    MAX(salary) AS max_salary,
+    MIN(salary) AS min_salary,
+    SUM(salary) AS total_salary
+FROM employees;`,
+        'subqueries': `-- Subqueries example
+SELECT name, salary
+FROM employees
+WHERE salary > (SELECT AVG(salary) FROM employees);`,
+        'transactions': `-- Database transactions (example for SQL Server)
+BEGIN TRANSACTION;
+
+INSERT INTO customers (name, email) VALUES ('John Doe', 'john@example.com');
+INSERT INTO orders (customer_id, amount) VALUES (1, 100.00);
+
+-- If everything is successful
+COMMIT;
+
+-- If there's an error
+-- ROLLBACK;`
+      }
+    };
+
+    // Piano keys configuration
+    const pianoKeys = [
+      { note: 'C', octave: 4, type: 'white', key: 'A' },
+      { note: 'C#', octave: 4, type: 'black', key: 'W' },
+      { note: 'D', octave: 4, type: 'white', key: 'S' },
+      { note: 'D#', octave: 4, type: 'black', key: 'E' },
+      { note: 'E', octave: 4, type: 'white', key: 'D' },
+      { note: 'F', octave: 4, type: 'white', key: 'F' },
+      { note: 'F#', octave: 4, type: 'black', key: 'T' },
+      { note: 'G', octave: 4, type: 'white', key: 'G' },
+      { note: 'G#', octave: 4, type: 'black', key: 'Y' },
+      { note: 'A', octave: 4, type: 'white', key: 'H' },
+      { note: 'A#', octave: 4, type: 'black', key: 'U' },
+      { note: 'B', octave: 4, type: 'white', key: 'J' },
+      { note: 'C', octave: 5, type: 'white', key: 'K' }
+    ];
+
+    // Common songs with their note sequences
+    const songs = {
+      'Twinkle Twinkle': {
+        notes: [
+          { note: 'C', octave: 4, duration: 500 },
+          { note: 'C', octave: 4, duration: 500 },
+          { note: 'G', octave: 4, duration: 500 },
+          { note: 'G', octave: 4, duration: 500 },
+          { note: 'A', octave: 4, duration: 500 },
+          { note: 'A', octave: 4, duration: 500 },
+          { note: 'G', octave: 4, duration: 1000 },
+          { note: 'F', octave: 4, duration: 500 },
+          { note: 'F', octave: 4, duration: 500 },
+          { note: 'E', octave: 4, duration: 500 },
+          { note: 'E', octave: 4, duration: 500 },
+          { note: 'D', octave: 4, duration: 500 },
+          { note: 'D', octave: 4, duration: 500 },
+          { note: 'C', octave: 4, duration: 1000 }
+        ],
+        description: 'A classic nursery rhyme. Start by playing the first two notes: C-C'
+      },
+      'Happy Birthday': {
+        notes: [
+          { note: 'C', octave: 4, duration: 250 },
+          { note: 'C', octave: 4, duration: 250 },
+          { note: 'D', octave: 4, duration: 500 },
+          { note: 'C', octave: 4, duration: 500 },
+          { note: 'F', octave: 4, duration: 500 },
+          { note: 'E', octave: 4, duration: 1000 },
+          { note: 'C', octave: 4, duration: 250 },
+          { note: 'C', octave: 4, duration: 250 },
+          { note: 'D', octave: 4, duration: 500 },
+          { note: 'C', octave: 4, duration: 500 },
+          { note: 'G', octave: 4, duration: 500 },
+          { note: 'F', octave: 4, duration: 1000 }
+        ],
+        description: 'The famous birthday song. Begin with: C-C-D-C-F-E'
+      },
+      'Ode to Joy': {
+        notes: [
+          { note: 'E', octave: 4, duration: 500 },
+          { note: 'E', octave: 4, duration: 500 },
+          { note: 'F', octave: 4, duration: 500 },
+          { note: 'G', octave: 4, duration: 500 },
+          { note: 'G', octave: 4, duration: 500 },
+          { note: 'F', octave: 4, duration: 500 },
+          { note: 'E', octave: 4, duration: 500 },
+          { note: 'D', octave: 4, duration: 500 },
+          { note: 'C', octave: 4, duration: 500 },
+          { note: 'C', octave: 4, duration: 500 },
+          { note: 'D', octave: 4, duration: 500 },
+          { note: 'E', octave: 4, duration: 500 },
+          { note: 'E', octave: 4, duration: 750 },
+          { note: 'D', octave: 4, duration: 250 },
+          { note: 'D', octave: 4, duration: 1000 }
+        ],
+        description: 'From Beethoven\'s Symphony No. 9. Start with: E-E-F-G-G-F-E-D'
+      }
+    };
+
+    // Chess pieces Unicode
+    const pieces = {
+      'white': {
+        'king': '♔',
+        'queen': '♕',
+        'rook': '♖',
+        'bishop': '♗',
+        'knight': '♘',
+        'pawn': '♙'
+      },
+      'black': {
+        'king': '♚',
+        'queen': '♛',
+        'rook': '♜',
+        'bishop': '♝',
+        'knight': '♞',
+        'pawn': '♟'
+      }
+    };
+
+    // Enhanced speaking function with advanced voice customization
+    function speak(text, voiceSettings = null, faceDetails = null) {
+      if (!text) return;
+      
+      // Stop any ongoing speech
+      synth.cancel();
+      
+      const utter = new SpeechSynthesisUtterance(text);
+      
+      // Use provided voice settings or defaults
+      if (voiceSettings) {
+        utter.pitch = voiceSettings.pitch || 1.0;
+        utter.rate = voiceSettings.rate || 1.0;
+        utter.volume = voiceSettings.volume || 1.0;
+      } else {
+        // Adjust voice parameters based on user's gender preference
+        const userGender = sessionStorage.getItem("gender") || localStorage.getItem("gender") || "unknown";
+        
+        if (userGender === "female") {
+          utter.pitch = 1.2; // Higher pitch for female voices
+        } else if (userGender === "male") {
+          utter.pitch = 0.8; // Lower pitch for male voices
+        } else {
+          // Adjust voice parameters based on face details if available
+          if (faceDetails && faceDetails.age > 0) {
+            // Adjust pitch based on age (younger voices are typically higher pitched)
+            if (faceDetails.age < 25) {
+              utter.pitch = 1.2;
+            } else if (faceDetails.age > 50) {
+              utter.pitch = 0.8;
+            } else {
+              utter.pitch = 1.0;
+            }
+          } else {
+            utter.pitch = 1.0;
+          }
+        }
+        utter.rate = 1.0;
+        utter.volume = 1.0;
+      }
+      
+      // Try to use a specific voice if available
+      if (voiceSettings && (voiceSettings.voiceURI || voiceSettings.name)) {
+        const voices = synth.getVoices();
+        const preferredVoice = voices.find(voice => 
+          voice.voiceURI === voiceSettings.voiceURI || 
+          voice.name === voiceSettings.name
+        );
+        
+        if (preferredVoice) {
+          utter.voice = preferredVoice;
+        }
+      }
+      
+      // Use a smooth, natural voice if available
+      const voices = synth.getVoices();
+      const preferredVoice = voices.find(voice => 
+        voice.name.includes('Google') || 
+        voice.name.includes('Natural') || 
+        voice.name.includes('Neural') ||
+        voice.lang === 'en-US'
+      );
+      
+      if (preferredVoice && !utter.voice) {
+        utter.voice = preferredVoice;
+      }
+      
+      utter.onstart = () => {
+        isSpeaking = true;
+      };
+      
+      utter.onend = () => {
+        isSpeaking = false;
+      };
+      
+      synth.speak(utter);
+    }
+
+    // Function to generate avatar response with enhanced fallback handling
+    async function generateAvatarResponse(text) {
+      try {
+        console.log("Generating avatar response for text:", text);
+        
+        const avatarStatus = document.getElementById('avatarStatus');
+        if (avatarStatus) avatarStatus.textContent = "Generating avatar response...";
+        
+        // Get user email and gender for voice detection
+        const userEmail = sessionStorage.getItem("email") || localStorage.getItem("email");
+        const userGender = sessionStorage.getItem("gender") || localStorage.getItem("gender") || "unknown";
+        
+        // Get the user's avatar URL
+        let avatarUrl = sessionStorage.getItem("avatarUrl") || 
+                        localStorage.getItem("avatarUrl") ||
+                        sessionStorage.getItem("profilePhoto") || 
+                        localStorage.getItem("profilePhoto");
+        
+        console.log("Avatar URL for response:", avatarUrl);
+        
+        if (!avatarUrl) {
+          // Use a default avatar if none exists
+          avatarUrl = "https://cdn.discordapp.com/attachments/1127860890006409337/1127860923460689950/ai-avatar.png";
+          console.log("Using default avatar for response");
+        }
+        
+        // Show the avatar image
+        const avatarPlaceholder = document.querySelector('.avatar-placeholder');
+        const avatarImage = document.getElementById('avatarImage');
+        const avatarVideo = document.getElementById('avatarVideo');
+        
+        if (avatarPlaceholder) avatarPlaceholder.style.display = 'none';
+        if (avatarImage) {
+          avatarImage.style.display = 'block';
+          avatarImage.src = avatarUrl;
+        }
+        if (avatarVideo) avatarVideo.style.display = 'none';
+        
+        // Add a pulsing animation to indicate the avatar is "speaking"
+        if (avatarImage) {
+          avatarImage.style.animation = 'pulse 1s infinite';
+        }
+        
+        // Try to generate a lip-synced video with D-ID API
+        const response = await fetch('/api/talk', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            imageUrl: avatarUrl,
+            text: text,
+            userEmail: userEmail // Send user email for gender detection
+          })
+        });
+        
+        const result = await response.json();
+        console.log("API response:", result);
+        
+        // Extract gender, voice settings, and face details if available
+        const gender = result.gender || userGender || 'unknown';
+        const voiceSettings = result.voiceSettings;
+        const faceDetails = result.faceDetails;
+        
+        if (response.ok && result.videoUrl) {
+          // Show the video
+          if (avatarImage) avatarImage.style.display = 'none';
+          if (avatarVideo) {
+            avatarVideo.style.display = 'block';
+            avatarVideo.src = result.videoUrl;
+            // Try to play the video
+            try {
+              await avatarVideo.play();
+            } catch (playError) {
+              console.log('Autoplay blocked, user interaction required');
+            }
+          }
+          if (avatarStatus) avatarStatus.textContent = `Avatar speaking (${gender})`;
+        } else if (response.ok && result.text) {
+          // Enhanced text-to-speech with avatar animations
+          if (avatarStatus) avatarStatus.textContent = `Avatar speaking (${gender})`;
+          // Speak with gender-specific voice
+          speak(result.text, voiceSettings, faceDetails);
+          // Add speaking animations to the avatar image
+          animateAvatarSpeaking(result.animationData, gender, faceDetails);
+        } else {
+          if (avatarStatus) avatarStatus.textContent = `Avatar speaking (${gender})`;
+          // Speak with default voice
+          speak(text, null, faceDetails);
+          // Add basic speaking animations
+          animateAvatarSpeaking(null, gender, faceDetails);
+        }
+        
+        // Remove the pulsing animation after a delay
+        setTimeout(() => {
+          if (avatarImage && avatarImage.style.animation) {
+            avatarImage.style.animation = '';
+          }
+        }, 3000);
+        
+      } catch (error) {
+        console.error("Avatar generation error:", error);
+        const avatarStatus = document.getElementById('avatarStatus');
+        if (avatarStatus) avatarStatus.textContent = "Avatar speaking (text-to-speech)";
+        
+        // Even on error, show the avatar and add basic animations
+        const avatarImage = document.getElementById('avatarImage');
+        if (avatarImage) {
+          avatarImage.style.display = 'block';
+          avatarImage.style.animation = 'pulse 1s infinite';
+        }
+        
+        // Speak with default voice
+        speak(text);
+        
+        // Remove animation after delay
+        setTimeout(() => {
+          if (avatarImage && avatarImage.style.animation) {
+            avatarImage.style.animation = '';
+          }
+        }, 3000);
+      }
+    }
+
+    // Function to animate avatar while speaking with advanced features
+    function animateAvatarSpeaking(animationData, gender = 'unknown', faceDetails = null) {
+      const avatarImage = document.getElementById('avatarImage');
+      if (!avatarImage) return;
+      
+      // Clear any existing animations
+      avatarImage.style.animation = '';
+      avatarImage.style.transform = 'scale(1)';
+      
+      // Apply gender and age-specific styling
+      if (gender === 'female') {
+        // Slightly lighter border for female avatars
+        avatarImage.style.boxShadow = '0 0 20px rgba(255, 182, 193, 0.8)';
+        avatarImage.style.border = '3px solid rgba(255, 182, 193, 0.5)';
+      } else if (gender === 'male') {
+        // Slightly darker border for male avatars
+        avatarImage.style.boxShadow = '0 0 20px rgba(100, 149, 237, 0.8)';
+        avatarImage.style.border = '3px solid rgba(100, 149, 237, 0.5)';
+      } else {
+        // Default border
+        avatarImage.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.3)';
+        avatarImage.style.border = '3px solid rgba(0, 0, 0, 0.3)';
+      }
+      
+      // Adjust animation based on age if available
+      let animationSpeed = 500; // Default speed
+      if (faceDetails && faceDetails.age > 0) {
+        if (faceDetails.age < 25) {
+          animationSpeed = 400; // Faster for younger people
+        } else if (faceDetails.age > 50) {
+          animationSpeed = 600; // Slower for older people
+        }
+      }
+      
+      // Create a more sophisticated lip movement simulation
+      function createLipMovement() {
+        // Create a temporary element to simulate lip movement
+        const lipElement = document.createElement('div');
+        lipElement.className = 'lip-movement';
+        lipElement.style.position = 'absolute';
+        lipElement.style.bottom = '25px';
+        lipElement.style.left = '50%';
+        lipElement.style.transform = 'translateX(-50%)';
+        lipElement.style.width = '50px';
+        lipElement.style.height = '20px';
+        lipElement.style.backgroundColor = gender === 'female' ? '#ff69b4' : '#4169e1';
+        lipElement.style.borderRadius = '0 0 25px 25px';
+        lipElement.style.zIndex = '10';
+        lipElement.style.opacity = '0.7';
+        lipElement.style.animation = 'enhancedLipMovement 0.8s infinite';
+        
+        // Add to avatar container
+        const avatarContainer = document.querySelector('.avatar-container');
+        if (avatarContainer) {
+          avatarContainer.style.position = 'relative';
+          avatarContainer.appendChild(lipElement);
+          
+          // Remove after animation completes
+          setTimeout(() => {
+            if (lipElement.parentNode) {
+              lipElement.parentNode.removeChild(lipElement);
+            }
+          }, 3000);
+        }
+      }
+      
+      // Simulate lip movement periodically
+      const lipMovementInterval = setInterval(createLipMovement, animationSpeed);
+      
+      // If we have animation data, use it
+      if (animationData) {
+        // Cycle through different emotions/transformation effects
+        let emotionIndex = 0;
+        const emotions = animationData.emotions || ['happy', 'thoughtful', 'excited'];
+        const interval = setInterval(() => {
+          const emotion = emotions[emotionIndex % emotions.length];
+          // Apply different CSS effects based on emotion and gender
+          if (gender === 'female') {
+            avatarImage.style.animation = 'femaleSpeaking 1.5s infinite';
+          } else if (gender === 'male') {
+            avatarImage.style.animation = 'maleSpeaking 1.5s infinite';
+          } else {
+            avatarImage.style.animation = 'speak 1.5s infinite';
+          }
+          emotionIndex++;
+        }, animationSpeed);
+        
+        // Stop animations after speech duration
+        const duration = animationData.duration || 3000;
+        setTimeout(() => {
+          clearInterval(interval);
+          clearInterval(lipMovementInterval);
+          avatarImage.style.animation = '';
+          avatarImage.style.boxShadow = '';
+          avatarImage.style.border = '';
+        }, duration);
+      } else {
+        // Simple pulse animation with gender-specific variations
+        if (gender === 'female') {
+          avatarImage.style.animation = 'femaleSpeaking 1.5s infinite';
+        } else if (gender === 'male') {
+          avatarImage.style.animation = 'maleSpeaking 1.5s infinite';
+        } else {
+          avatarImage.style.animation = 'speak 1.5s infinite';
+        }
+        
+        setTimeout(() => {
+          clearInterval(lipMovementInterval);
+          avatarImage.style.animation = '';
+          avatarImage.style.boxShadow = '';
+          avatarImage.style.border = '';
+        }, 3000);
+      }
+    }
+
+    function stopVoice() {
+      synth.cancel();
+      isSpeaking = false;
+      document.getElementById('avatarStatus').textContent = "Voice stopped";
+      
+      // Stop any avatar animations
+      const avatarImage = document.getElementById('avatarImage');
+      if (avatarImage) {
+        avatarImage.style.animation = '';
+        avatarImage.style.transform = 'scale(1)';
+        avatarImage.style.boxShadow = '';
+      }
+      
+      // Remove any lip movement elements
+      const avatarContainer = document.querySelector('.avatar-container');
+      if (avatarContainer) {
+        const lipElements = avatarContainer.querySelectorAll('div[style*="lipMovement"]');
+        lipElements.forEach(el => {
+          if (el.parentNode) {
+            el.parentNode.removeChild(el);
+          }
+        });
+      }
+    }
+
+    function showAvatar() {
+      try {
+        // Get elements
+        const avatarPlaceholder = document.querySelector('.avatar-placeholder');
+        const avatarImage = document.getElementById('avatarImage');
+        const avatarStatus = document.getElementById('avatarStatus');
+        
+        // Get the user's avatar URL from multiple sources
+        let avatarUrl = sessionStorage.getItem("avatarUrl") || 
+                        localStorage.getItem("avatarUrl") ||
+                        sessionStorage.getItem("profilePhoto") || 
+                        localStorage.getItem("profilePhoto");
+        
+        console.log("Avatar URL from storage:", avatarUrl);
+        
+        // If no avatar URL found, use default
+        if (!avatarUrl) {
+          avatarUrl = "https://cdn.discordapp.com/attachments/1127860890006409337/1127860923460689950/ai-avatar.png";
+          if (avatarStatus) avatarStatus.textContent = "Using default avatar";
+          console.log("Using default avatar");
+        } else {
+          if (avatarStatus) avatarStatus.textContent = "Avatar loaded";
+          console.log("Using user avatar");
+        }
+        
+        // Hide placeholder and show avatar image
+        if (avatarPlaceholder) avatarPlaceholder.style.display = 'none';
+        if (avatarImage) {
+          avatarImage.style.display = 'block';
+          avatarImage.src = avatarUrl;
+          avatarImage.alt = "AI Avatar";
+          
+          // Add a subtle animation to show the avatar is active
+          avatarImage.style.animation = 'fadeIn 0.5s';
+          setTimeout(() => {
+            if (avatarImage) avatarImage.style.animation = '';
+          }, 500);
+        }
+        
+        console.log("Avatar displayed successfully");
+      } catch (error) {
+        console.error("Error showing avatar:", error);
+        // Fallback to showing the placeholder
+        const avatarPlaceholder = document.querySelector('.avatar-placeholder');
+        const avatarImage = document.getElementById('avatarImage');
+        if (avatarPlaceholder) avatarPlaceholder.style.display = 'flex';
+        if (avatarImage) avatarImage.style.display = 'none';
+      }
+    }
+
+    function hideAvatar() {
+      try {
+        const avatarPlaceholder = document.querySelector('.avatar-placeholder');
+        const avatarImage = document.getElementById('avatarImage');
+        const avatarStatus = document.getElementById('avatarStatus');
+        
+        if (avatarPlaceholder) avatarPlaceholder.style.display = 'flex';
+        if (avatarImage) avatarImage.style.display = 'none';
+        if (avatarStatus) avatarStatus.textContent = "Avatar hidden";
+      } catch (error) {
+        console.error("Error hiding avatar:", error);
+      }
+    }
+
+    function clearOutput() {
+      document.getElementById('codeOutput').textContent = "Output cleared.";
+    }
+
+    // Lesson content for each skill
+    const lessons = {
+      'Chess': [
+        {
+          title: "Chess Basics",
+          content: "Chess is a strategic board game played between two players on an 8x8 grid. Each player starts with 16 pieces: one king, one queen, two rooks, two bishops, two knights, and eight pawns. The goal is to checkmate your opponent's king."
+        },
+        {
+          title: "Piece Movement",
+          content: "Each piece moves differently: Pawns move forward one square (or two on their first move), Rooks move horizontally or vertically, Bishops move diagonally, Knights move in an L-shape, Queens combine Rook and Bishop moves, and Kings move one square in any direction."
+        },
+        {
+          title: "Special Moves",
+          content: "Chess has special moves: Castling (king and rook swap positions), En passant (capturing a pawn that just moved two squares), and Pawn promotion (pawns become queens or other pieces when reaching the opposite side)."
+        },
+        {
+          title: "Game Phases",
+          content: "Chess has three phases: Opening (develop pieces and control the center), Middlegame (execute tactical plans and attack), and Endgame (simplify to checkmate with fewer pieces)."
+        }
+      ],
+      'Piano': [
+        {
+          title: "Piano Basics",
+          content: "The piano has 88 keys: 52 white keys (natural notes) and 36 black keys (sharps and flats). The white keys are named C, D, E, F, G, A, B. Middle C is near the center of the keyboard and is a good reference point."
+        },
+        {
+          title: "Hand Position",
+          content: "Proper hand position is crucial: Keep fingers curved as if holding a ball, use fingertips to press keys, keep wrists level with keys, and maintain relaxed arms and shoulders. Practice scales to develop finger strength and dexterity."
+        },
+        {
+          title: "Reading Music",
+          content: "Music notation uses a staff with five lines. Notes on lines (treble clef): E, G, B, D, F (Every Good Boy Does Fine). Notes in spaces: F, A, C, E (FACE). The bass clef is used for left hand parts."
+        },
+        {
+          title: "Basic Chords",
+          content: "Start with major and minor triads. C major: C-E-G, G major: G-B-D, F major: F-A-C. Practice chord progressions like C-Am-F-G. Use finger numbers: thumb=1, index=2, middle=3, ring=4, pinky=5."
+        }
+      ],
+      'Yoga': [
+        {
+          title: "Yoga Fundamentals",
+          content: "Yoga combines physical postures, breathing techniques, and meditation. It improves flexibility, strength, balance, and mental clarity. Practice on an empty stomach, wear comfortable clothes, and use a non-slip mat."
+        },
+        {
+          title: "Breathing Techniques",
+          content: "Pranayama (breath control) is essential in yoga. Practice Ujjayi breath: Inhale and exhale through the nose while slightly constricting the throat. This creates a soft ocean sound and helps focus the mind."
+        },
+        {
+          title: "Basic Poses",
+          content: "Start with foundational poses: Mountain Pose (Tadasana) for alignment, Downward Dog (Adho Mukha Svanasana) for full-body stretch, Warrior I (Virabhadrasana I) for strength, and Child's Pose (Balasana) for rest."
+        },
+        {
+          title: "Practice Sequence",
+          content: "A typical yoga session includes: Centering (5 min), Warm-up (10 min), Sun Salutations (10 min), Standing poses (15 min), Floor poses (15 min), and Relaxation (5 min). Always end with Savasana (Corpse Pose)."
+        }
+      ],
+      'C': [
+        {
+          title: "C Programming Basics",
+          content: "C is a powerful, efficient programming language developed in the 1970s. It's used for system programming, embedded systems, and applications requiring high performance. C gives programmers direct control over system resources."
+        },
+        {
+          title: "Variables and Data Types",
+          content: "C has several data types: int (integers), float/double (decimals), char (characters), and void (no value). Declare variables with type first: int age = 25; float price = 19.99; char grade = 'A'; Use #include <stdio.h> for input/output."
+        },
+        {
+          title: "Control Structures",
+          content: "Control structures direct program flow: if-else statements for decisions, for/while loops for repetition. Example: for(int i=0; i<5; i++) { printf('%d\\n', i); } prints numbers 0-4. Use logical operators (&&, ||, !) for complex conditions."
+        },
+        {
+          title: "Functions and Arrays",
+          content: "Functions organize code into reusable blocks. Example: int add(int a, int b) { return a + b; } Arrays store multiple values: int numbers[5] = {1, 2, 3, 4, 5}; Access with index: numbers[0] is first element. Remember arrays start at index 0."
+        }
+      ],
+      'C++': [
+        {
+          title: "C++ Fundamentals",
+          content: "C++ extends C with object-oriented features. It supports both procedural and object-oriented programming. C++ is used for game development, system software, and high-performance applications. It's compiled to machine code for efficiency."
+        },
+        {
+          title: "Classes and Objects",
+          content: "Classes are blueprints for creating objects. Example: class Student { public: string name; int age; void display() { cout << name << ' is ' << age << ' years old'; } }; Create objects: Student s1; s1.name = 'John'; s1.display();"
+        },
+        {
+          title: "STL and Templates",
+          content: "The Standard Template Library (STL) provides containers like vector, list, map. Example: vector<int> numbers = {1, 2, 3, 4, 5}; numbers.push_back(6); Use #include <vector>. Templates allow generic programming: template <typename T> T max(T a, T b) { return (a > b) ? a : b; }"
+        },
+        {
+          title: "Memory Management",
+          content: "C++ allows manual memory management with new/delete. Example: int* ptr = new int(42); cout << *ptr; delete ptr; Modern C++ prefers smart pointers: unique_ptr<int> ptr = make_unique<int>(42); Automatic cleanup prevents memory leaks."
+        }
+      ],
+      'Java': [
+        {
+          title: "Java Introduction",
+          content: "Java is a high-level, object-oriented language with 'write once, run anywhere' capability. It uses the Java Virtual Machine (JVM) for platform independence. Java is used for web apps, Android apps, and enterprise software."
+        },
+        {
+          title: "Object-Oriented Programming",
+          content: "Java is purely object-oriented. Everything is a class or object. Example: public class Person { String name; int age; void introduce() { System.out.println('Hi, I'm ' + name); } } Create objects: Person p = new Person(); p.name = 'John';"
+        },
+        {
+          title: "Collections Framework",
+          content: "Java's Collections Framework provides data structures: ArrayList (dynamic array), HashMap (key-value pairs), LinkedList (linked nodes). Example: ArrayList<String> names = new ArrayList<>(); names.add('John'); System.out.println(names.get(0));"
+        },
+        {
+          title: "Exception Handling",
+          content: "Java uses try-catch-finally for error handling. Example: try { int result = 10/0; } catch(ArithmeticException e) { System.out.println('Cannot divide by zero'); } finally { System.out.println('This always executes'); } This prevents program crashes."
+        }
+      ],
+      'Python': [
+        {
+          title: "Python Basics",
+          content: "Python is an interpreted, high-level language known for simplicity and readability. It's used for web development, data science, AI, and automation. Python uses indentation instead of braces for code blocks. No need to declare variable types."
+        },
+        {
+          title: "Data Structures",
+          content: "Python has built-in data structures: Lists (ordered, mutable): my_list = [1, 2, 3]; Tuples (ordered, immutable): my_tuple = (1, 2, 3); Dictionaries (key-value pairs): my_dict = {'name': 'John', 'age': 25}; Sets (unique elements): my_set = {1, 2, 3}"
+        },
+        {
+          title: "Functions and Modules",
+          content: "Define functions with def: def greet(name): return f'Hello, {name}!'; Call with greet('John'). Import modules: import math; print(math.pi) or from math import pi; print(pi). Create your own modules by saving code in .py files."
+        },
+        {
+          title: "File Handling and Libraries",
+          content: "Work with files: with open('file.txt', 'r') as f: content = f.read(). Popular libraries: NumPy for numerical computing, Pandas for data analysis, Matplotlib for plotting, Requests for HTTP requests. Install with pip install library_name."
+        }
+      ],
+      'SQL': [
+        {
+          title: "SQL Fundamentals",
+          content: "SQL (Structured Query Language) manages relational databases. It's declarative - you specify what you want, not how to get it. SQL operations: SELECT (retrieve), INSERT (add), UPDATE (modify), DELETE (remove). Used with MySQL, PostgreSQL, SQL Server, etc."
+        },
+        {
+          title: "Basic Queries",
+          content: "SELECT retrieves data: SELECT name, age FROM students WHERE age > 18; Use ORDER BY for sorting: ORDER BY name ASC; LIMIT for restrictions: LIMIT 10; Aggregate functions: COUNT(*), AVG(salary), MAX(price), MIN(age), SUM(sales)."
+        },
+        {
+          title: "Joins and Relationships",
+          content: "Joins combine data from multiple tables: INNER JOIN (matching records), LEFT JOIN (all left records), RIGHT JOIN (all right records). Example: SELECT s.name, c.course FROM students s INNER JOIN enrollments e ON s.id = e.student_id INNER JOIN courses c ON e.course_id = c.id;"
+        },
+        {
+          title: "Data Modification",
+          content: "INSERT adds data: INSERT INTO students (name, age) VALUES ('John', 20); UPDATE modifies data: UPDATE students SET age = 21 WHERE name = 'John'; DELETE removes data: DELETE FROM students WHERE age < 18; Always use WHERE clause to avoid unintended changes."
+        }
+      ]
+    };
+
+    // Function to start a lesson
+    function startLesson() {
+      const skill = localStorage.getItem("selectedSkill") || "skill";
+      const lessonContent = lessons[skill];
+      
+      if (!lessonContent || lessonContent.length === 0) {
+        const chatBox = document.getElementById('chatBox');
+        const botMsg = document.createElement('p');
+        botMsg.className = 'bot';
+        botMsg.innerHTML = `<b>AI Teacher:</b> I don't have specific lessons for ${skill} yet. Feel free to ask me questions about this skill!`;
+        chatBox.appendChild(botMsg);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        return;
+      }
+      
+      currentLesson = lessonContent;
+      currentTopicIndex = 0;
+      
+      // Update progress bar
+      const progressFill = document.getElementById('progressFill');
+      progressFill.style.width = '0%';
+      
+      // Show first topic
+      showTopic(0);
+    }
+
+    // Function to show a specific topic
+    function showTopic(index) {
+      if (!currentLesson || index < 0 || index >= currentLesson.length) return;
+      
+      currentTopicIndex = index;
+      const topic = currentLesson[index];
+      
+      // Update chat box
+      const chatBox = document.getElementById('chatBox');
+      
+      // Clear previous lesson messages
+      const botMessages = chatBox.querySelectorAll('.bot');
+      botMessages.forEach(msg => {
+        if (msg.innerHTML.includes('AI Teacher:') && 
+            (msg.innerHTML.includes('Lesson:') || msg.innerHTML.includes('Topic:'))) {
+          msg.remove();
+        }
+      });
+      
+      const botMsg = document.createElement('p');
+      botMsg.className = 'bot';
+      botMsg.innerHTML = `<b>AI Teacher:</b> Lesson: ${topic.title}<br><br>${topic.content}`;
+      chatBox.appendChild(botMsg);
+      
+      // Scroll to bottom
+      chatBox.scrollTop = chatBox.scrollHeight;
+      
+      // Update progress bar
+      const progressFill = document.getElementById('progressFill');
+      const progressPercent = ((index + 1) / currentLesson.length) * 100;
+      progressFill.style.width = progressPercent + '%';
+      
+      // Speak the response with avatar generation
+      generateAvatarResponse(`Lesson: ${topic.title}. ${topic.content}`);
+    }
+
+    // Function to go to the next topic
+    function nextTopic() {
+      if (!currentLesson) {
+        startLesson();
+        return;
+      }
+      
+      if (currentTopicIndex < currentLesson.length - 1) {
+        showTopic(currentTopicIndex + 1);
+      } else {
+        // Lesson completed
+        const chatBox = document.getElementById('chatBox');
+        const botMsg = document.createElement('p');
+        botMsg.className = 'bot';
+        botMsg.innerHTML = `<b>AI Teacher:</b> Congratulations! You've completed this lesson. Feel free to review any topic or ask me questions.`;
+        chatBox.appendChild(botMsg);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        generateAvatarResponse("Congratulations! You've completed this lesson. Feel free to review any topic or ask me questions.");
+      }
+    }
+
+    // Function to handle user input messages
+    function sendMessage(e) {
+      if (e.key === 'Enter') {
+        const input = document.getElementById('userInput');
+        const message = input.value.trim();
+        if (message) {
+          // Add user message to chat
+          const chatBox = document.getElementById('chatBox');
+          const userMsg = document.createElement('p');
+          userMsg.className = 'user';
+          userMsg.innerHTML = `<b>You:</b> ${message}`;
+          chatBox.appendChild(userMsg);
+          
+          // Clear input
+          input.value = '';
+          
+          // Scroll to bottom
+          chatBox.scrollTop = chatBox.scrollHeight;
+          
+          // Generate AI response
+          setTimeout(() => {
+            generateAIResponse(message);
+          }, 500);
+        }
+      }
+    }
+
+    // Function to generate AI responses
+    function generateAIResponse(question) {
+      const chatBox = document.getElementById('chatBox');
+      const botMsg = document.createElement('p');
+      botMsg.className = 'bot';
+      
+      // Simple response logic based on the question
+      let response = "I'm here to help you learn! Could you ask a more specific question about this skill?";
+      
+      const skill = localStorage.getItem("selectedSkill") || "skill";
+      
+      if (skill.toLowerCase() === 'chess') {
+        if (question.toLowerCase().includes('move')) {
+          response = "In chess, always think ahead! Consider your opponent's possible responses to each move. Control the center of the board and develop your pieces quickly.";
+        } else if (question.toLowerCase().includes('opening')) {
+          response = "A good opening principle is to control the center with pawns, develop your knights before bishops, and castle early to protect your king.";
+        } else if (question.toLowerCase().includes('endgame')) {
+          response = "In the endgame, king activity becomes crucial. Activate your king and try to create passed pawns. Remember: king and pawn vs king is usually a win if the pawn is far enough advanced.";
+        }
+      } else if (skill.toLowerCase() === 'piano') {
+        if (question.toLowerCase().includes('practice')) {
+          response = "Practice slowly at first, focusing on accuracy. Use a metronome to develop steady rhythm. Break difficult passages into smaller sections and practice them separately.";
+        } else if (question.toLowerCase().includes('chord')) {
+          response = "A chord is three or more notes played together. Start with major and minor triads. Practice chord progressions like C-Am-F-G to build your skills.";
+        } else if (question.toLowerCase().includes('finger')) {
+          response = "Keep your fingers curved as if holding a ball. Use the fingertips to press the keys, not the finger pads. Maintain a relaxed wrist and arm position.";
+        }
+      } else if (skill.toLowerCase() === 'yoga') {
+        if (question.toLowerCase().includes('breath')) {
+          response = "In yoga, synchronize your breath with movement. Inhale during expansive movements and exhale during contractions. Practice Ujjayi breathing for focus and relaxation.";
+        } else if (question.toLowerCase().includes('flexibility')) {
+          response = "Improving flexibility takes time and patience. Practice regularly but never force your body. Hold poses for 30 seconds or more and focus on gradual progress.";
+        } else if (question.toLowerCase().includes('balance')) {
+          response = "For better balance, focus on a fixed point (drishti) and engage your core muscles. Start with simpler poses like tree pose before advancing to more challenging ones.";
+        }
+      } else if (['c', 'c++', 'java', 'python', 'sql'].includes(skill.toLowerCase())) {
+        // Programming-related responses
+        if (question.toLowerCase().includes('loop') || question.toLowerCase().includes('for') || question.toLowerCase().includes('while')) {
+          response = `In ${skill}, loops are used to execute a block of code repeatedly. For example, a for loop in ${skill} allows you to iterate a specific number of times. Would you like me to show you an example in the code editor?`;
+        } else if (question.toLowerCase().includes('function') || question.toLowerCase().includes('method')) {
+          response = `Functions (or methods) in ${skill} are blocks of code designed to perform a particular task. They help make your code modular and reusable. You can define a function and then call it whenever you need to execute that task. Try creating one in the code editor!`;
+        } else if (question.toLowerCase().includes('variable') || question.toLowerCase().includes('declare')) {
+          response = `Variables in ${skill} are used to store data values. The way you declare variables depends on the language. In ${skill}, you typically need to specify the type of data the variable will hold. Check the examples in the code editor for specific syntax.`;
+        } else if (question.toLowerCase().includes('array') || question.toLowerCase().includes('list')) {
+          response = `Arrays (or lists in some languages) are used to store multiple values in a single variable. In ${skill}, arrays are zero-indexed, meaning the first element is at index 0. They're useful for storing collections of data of the same type.`;
+        } else if (question.toLowerCase().includes('error') || question.toLowerCase().includes('debug')) {
+          response = `Debugging is an essential skill in programming. Common errors include syntax errors (typos), logical errors (code runs but doesn't do what you expect), and runtime errors (errors that occur during execution). Check the output in the console for error messages that can help you identify the issue.`;
+        } else if (question.toLowerCase().includes('hello world')) {
+          response = `The "Hello, World!" program is a traditional first program in any programming language. It simply prints the text "Hello, World!" to the screen. I can show you how to write this in ${skill} - just click one of the example buttons in the programming guide!`;
+        } else {
+          response = `I'm your ${skill} tutor! Feel free to ask me about specific programming concepts, syntax, or help with your code. You can also try one of the examples in the programming guide to get started.`;
+        }
+      }
+      
+      botMsg.innerHTML = `<b>AI Teacher:</b> ${response}`;
+      chatBox.appendChild(botMsg);
+      
+      // Scroll to bottom
+      chatBox.scrollTop = chatBox.scrollHeight;
+      
+      // Speak the response with avatar generation
+      generateAvatarResponse(response);
+    }
+
+    // Initialize speech synthesis voices
+    if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = function() {
+        // Voices are ready
+      };
+    }
+    
+    // Initialize the page based on the selected skill
+    document.addEventListener('DOMContentLoaded', function() {
+      const skill = localStorage.getItem("selectedSkill") || "skill";
+      document.getElementById('skillTitle').textContent = skill + " Learning";
+      
+      // Hide all sections initially
+      document.getElementById('chessSection').classList.remove('active');
+      document.getElementById('pianoSection').classList.remove('active');
+      document.getElementById('yogaSection').classList.remove('active');
+      document.getElementById('programmingSection').classList.remove('active');
+      
+      // Show the appropriate section based on the selected skill
+      if (skill.toLowerCase() === 'chess') {
+        document.getElementById('chessSection').classList.add('active');
+        initializeChessboard();
+      } else if (skill.toLowerCase() === 'piano') {
+        document.getElementById('pianoSection').classList.add('active');
+        initializePiano();
+        initializeSongs();
+      } else if (skill.toLowerCase() === 'yoga') {
+        document.getElementById('yogaSection').classList.add('active');
+        showPose(0); // Show the first pose
+      } else if (['c', 'c++', 'java', 'python', 'sql'].includes(skill.toLowerCase())) {
+        document.getElementById('programmingSection').classList.add('active');
+        changeLanguage(); // Initialize with the correct language
+      }
+    });
+    
+    // Yoga functions
+    function showPose(index) {
+      if (index < 0 || index >= yogaPoses.length) return;
+      
+      currentPoseIndex = index;
+      const pose = yogaPoses[index];
+      
+      document.getElementById('poseAnimation').textContent = pose.symbol;
+      document.getElementById('poseName').textContent = pose.name;
+      document.getElementById('poseDescription').textContent = pose.description;
+      
+      // Speak the pose description
+      speak(`${pose.name}. ${pose.description}`);
+    }
+
+    function nextPose() {
+      if (currentPoseIndex < yogaPoses.length - 1) {
+        showPose(currentPoseIndex + 1);
+      }
+    }
+
+    function prevPose() {
+      if (currentPoseIndex > 0) {
+        showPose(currentPoseIndex - 1);
+      }
+    }
+
+    // Piano functions
+    function initializePiano() {
+      const piano = document.getElementById('piano');
+      piano.innerHTML = '';
+      
+      pianoKeys.forEach((keyInfo, index) => {
+        const key = document.createElement('div');
+        key.className = `key ${keyInfo.type}`;
+        key.dataset.note = keyInfo.note;
+        key.dataset.octave = keyInfo.octave;
+        key.dataset.fullNote = keyInfo.note + keyInfo.octave;
+        key.textContent = keyInfo.type === 'white' ? keyInfo.note : '';
+        
+        key.addEventListener('mousedown', () => playNote(keyInfo.note, keyInfo.octave, key));
+        key.addEventListener('mouseup', () => stopNote(key));
+        key.addEventListener('mouseleave', () => stopNote(key));
+        
+        // Touch events for mobile
+        key.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          playNote(keyInfo.note, keyInfo.octave, key);
+        });
+        key.addEventListener('touchend', () => stopNote(key));
+        
+        piano.appendChild(key);
+      });
+    }
+
+    function getFrequency(note, octave) {
+      const notes = {
+        'C': 261.63,
+        'C#': 277.18,
+        'D': 293.66,
+        'D#': 311.13,
+        'E': 329.63,
+        'F': 349.23,
+        'F#': 369.99,
+        'G': 392.00,
+        'G#': 415.30,
+        'A': 440.00,
+        'A#': 466.16,
+        'B': 493.88
+      };
+      
+      const frequency = notes[note];
+      return frequency * Math.pow(2, octave - 4);
+    }
+
+    function playNote(note, octave, keyElement) {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      
+      const frequency = getFrequency(note, octave);
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.type = 'sine';
+      oscillator.frequency.value = frequency;
+      gainNode.gain.value = 0.2;
+      
+      oscillator.start();
+      
+      // Store reference to stop later
+      keyElement.oscillator = oscillator;
+      keyElement.gainNode = gainNode;
+      keyElement.classList.add('active');
+    }
+
+    function stopNote(keyElement) {
+      if (keyElement.oscillator) {
+        keyElement.gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+        keyElement.oscillator.stop(audioContext.currentTime + 0.1);
+        keyElement.oscillator = null;
+        keyElement.gainNode = null;
+        keyElement.classList.remove('active');
+      }
+    }
+
+    function initializeSongs() {
+      const selector = document.getElementById('songSelector');
+      selector.innerHTML = '';
+      
+      Object.keys(songs).forEach(songName => {
+        const button = document.createElement('button');
+        button.className = 'song-btn';
+        button.textContent = songName;
+        button.onclick = () => selectSong(songName);
+        selector.appendChild(button);
+      });
+    }
+
+    function selectSong(songName) {
+      currentSong = songs[songName];
+      document.getElementById('songGuide').textContent = currentSong.description;
+      
+      // Highlight selected button
+      document.querySelectorAll('.song-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent === songName);
+      });
+      
+      // Play the song
+      playSong();
+    }
+
+    function playSong() {
+      if (!currentSong || !currentSong.notes.length) return;
+      
+      // Clear any existing timeouts
+      if (songTimeout) clearTimeout(songTimeout);
+      
+      let index = 0;
+      
+      function playNextNote() {
+        if (index >= currentSong.notes.length) return;
+        
+        const note = currentSong.notes[index];
+        const keyElement = document.querySelector(`.key[data-note="${note.note}"][data-octave="${note.octave}"]`);
+        
+        if (keyElement) {
+          playNote(note.note, note.octave, keyElement);
+          
+          // Stop the note after its duration
+          setTimeout(() => {
+            stopNote(keyElement);
+          }, note.duration - 50);
+        }
+        
+        index++;
+        if (index < currentSong.notes.length) {
+          songTimeout = setTimeout(playNextNote, note.duration);
+        }
+      }
+      
+      playNextNote();
+    }
+
+    // Chess functions with proper functionality
+    function initializeChessboard() {
+      const chessboard = document.getElementById('chessboard');
+      chessboard.innerHTML = '';
+      
+      // Add file coordinates (a-h)
+      const fileRow = document.createElement('tr');
+      fileRow.innerHTML = '<td></td>';
+      for (let i = 0; i < 8; i++) {
+        fileRow.innerHTML += `<td class="coordinates coordinate-file">${String.fromCharCode(97 + i)}</td>`;
+      }
+      chessboard.appendChild(fileRow);
+      
+      // Add squares
+      for (let row = 0; row < 8; row++) {
+        const tr = document.createElement('tr');
+        
+        // Add rank coordinate (8-1)
+        const rankCell = document.createElement('td');
+        rankCell.className = 'coordinates coordinate-rank';
+        rankCell.textContent = 8 - row;
+        tr.appendChild(rankCell);
+        
+        for (let col = 0; col < 8; col++) {
+          const td = document.createElement('td');
+          td.dataset.row = row;
+          td.dataset.col = col;
+          
+          // Set color class
+          const isLight = (row + col) % 2 === 0;
+          td.className = isLight ? 'light' : 'dark';
+          
+          // Set piece if exists
+          const pieceCode = board[row][col];
+          if (pieceCode) {
+            const color = pieceCode[0] === 'w' ? 'white' : 'black';
+            const pieceType = pieceCode[1] === 'p' ? 'pawn' :
+                             pieceCode[1] === 'r' ? 'rook' :
+                             pieceCode[1] === 'n' ? 'knight' :
+                             pieceCode[1] === 'b' ? 'bishop' :
+                             pieceCode[1] === 'q' ? 'queen' : 'king';
+            td.textContent = pieces[color][pieceType];
+            td.dataset.piece = pieceCode;
+          }
+          
+          td.addEventListener('click', () => handleSquareClick(row, col));
+          tr.appendChild(td);
+        }
+        chessboard.appendChild(tr);
+      }
+    }
+
+    // Function to check for checkmate and display victory/defeat messages
+    function checkForCheckmate() {
+      // Check if the current player is in checkmate
+      if (isCheckmate(currentPlayer)) {
+        gameActive = false;
+        const winner = currentPlayer === 'white' ? 'black' : 'white';
+        const resultMessage = winner === playerColor ? 'Victory! You won the game!' : 'Defeat! You lost the game!';
+        document.getElementById('statusBar').textContent = resultMessage;
+        
+        // Show an alert as well for better visibility
+        setTimeout(() => {
+          alert(resultMessage);
+        }, 100);
+        
+        return true;
+      }
+      return false;
+    }
+
+    // More accurate checkmate detection
+    function isCheckmate(playerColor) {
+      // Get all possible moves for the current player
+      const possibleMoves = getAllPossibleMoves(playerColor);
+      
+      // If no possible moves, it could be checkmate or stalemate
+      if (possibleMoves.length === 0) {
+        // In a full implementation, we would check if the king is in check
+        // For this implementation, we'll assume it's checkmate if no moves
+        return true;
+      }
+      
+      return false;
+    }
+
+    // Enhanced function to get all possible moves for a player
+    function getAllPossibleMoves(playerColor) {
+      const moves = [];
+      for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+          const piece = board[row][col];
+          if (piece && piece[0] === (playerColor === 'white' ? 'w' : 'b')) {
+            const pieceType = piece[1];
+            const pieceColor = piece[0] === 'w' ? 'white' : 'black';
+            let pieceMoves = [];
+            
+            switch (pieceType) {
+              case 'p': // Pawn
+                pieceMoves = getPawnMoves(row, col, pieceColor);
+                break;
+              case 'r': // Rook
+                pieceMoves = getRookMoves(row, col, pieceColor);
+                break;
+              case 'n': // Knight
+                pieceMoves = getKnightMoves(row, col, pieceColor);
+                break;
+              case 'b': // Bishop
+                pieceMoves = getBishopMoves(row, col, pieceColor);
+                break;
+              case 'q': // Queen
+                pieceMoves = getQueenMoves(row, col, pieceColor);
+                break;
+              case 'k': // King
+                pieceMoves = getKingMoves(row, col, pieceColor);
+                break;
+            }
+            
+            // Convert to move format [fromRow, fromCol, toRow, toCol]
+            pieceMoves.forEach(([toRow, toCol]) => {
+              moves.push([row, col, toRow, toCol]);
+            });
+          }
+        }
+      }
+      return moves;
+    }
+
+    // Function to make AI move based on difficulty
+    function makeAIMove() {
+      if (!gameActive) return;
+      if (currentPlayer !== 'black' && playerColor !== 'black') return;
+      if (currentPlayer !== 'white' && playerColor !== 'white') return;
+      
+      const difficulty = document.getElementById('difficulty').value;
+      let move = null;
+      
+      // Get all possible moves for the current player
+      const possibleMoves = getAllPossibleMoves(currentPlayer);
+      
+      if (possibleMoves.length === 0) return;
+      
+      switch (difficulty) {
+        case 'easy':
+          // Easy: Random moves with occasional mistakes
+          move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+          break;
+        case 'medium':
+          // Medium: Prefer captures and checks, avoid blunders
+          move = findMediumMove(possibleMoves);
+          break;
+        case 'hard':
+          // Hard: Try to find the best move using minimax algorithm (simplified)
+          move = findBestMove(possibleMoves);
+          break;
+      }
+      
+      if (move) {
+        const [fromRow, fromCol, toRow, toCol] = move;
+        // Verify this is a valid move for the current player
+        const piece = board[fromRow][fromCol];
+        if (piece && ((currentPlayer === 'white' && piece[0] === 'w') || (currentPlayer === 'black' && piece[0] === 'b'))) {
+          movePiece(fromRow, fromCol, toRow, toCol);
+          
+          // Check if game is still active after the move (king might have been captured)
+          if (!gameActive) return;
+          
+          switchPlayer();
+          
+          // Check for checkmate after AI move
+          checkForCheckmate();
+        }
+      }
+    }
+
+    // Function to find a medium difficulty move
+    function findMediumMove(possibleMoves) {
+      // Filter out moves that would capture own pieces
+      const validMoves = possibleMoves.filter(move => {
+        const [fromRow, fromCol, toRow, toCol] = move;
+        const piece = board[fromRow][fromCol];
+        const targetPiece = board[toRow][toCol];
+        
+        // Make sure we're not capturing our own piece
+        if (targetPiece && ((piece[0] === 'w' && targetPiece[0] === 'w') || (piece[0] === 'b' && targetPiece[0] === 'b'))) {
+          return false;
+        }
+        
+        return true;
+      });
+      
+      if (validMoves.length === 0) {
+        // If no valid moves, make a random move from all possible moves
+        return possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+      }
+      
+      // Look for captures first among valid moves
+      const captureMoves = validMoves.filter(move => {
+        const [fromRow, fromCol, toRow, toCol] = move;
+        return board[toRow][toCol] !== ''; // Capture move
+      });
+      
+      if (captureMoves.length > 0) {
+        // Among captures, prefer capturing more valuable pieces
+        const moveValues = captureMoves.map(move => {
+          const [fromRow, fromCol, toRow, toCol] = move;
+          const capturedPiece = board[toRow][toCol];
+          let value = 0;
+          switch (capturedPiece[1]) {
+            case 'p': value = 1; break; // Pawn
+            case 'n': value = 3; break; // Knight
+            case 'b': value = 3; break; // Bishop
+            case 'r': value = 5; break; // Rook
+            case 'q': value = 9; break; // Queen
+            case 'k': value = 100; break; // King (shouldn't happen)
+          }
+          return { move, value };
+        });
+        
+        // Sort by value (descending) and return the best
+        moveValues.sort((a, b) => b.value - a.value);
+        return moveValues[0].move;
+      }
+      
+      // If no captures, make a random move from valid moves
+      return validMoves[Math.floor(Math.random() * validMoves.length)];
+    }
+
+    // Simplified best move finder for hard difficulty
+    function findBestMove(possibleMoves) {
+      // Filter out moves that would capture own pieces
+      const validMoves = possibleMoves.filter(move => {
+        const [fromRow, fromCol, toRow, toCol] = move;
+        const piece = board[fromRow][fromCol];
+        const targetPiece = board[toRow][toCol];
+        
+        // Make sure we're not capturing our own piece
+        if (targetPiece && ((piece[0] === 'w' && targetPiece[0] === 'w') || (piece[0] === 'b' && targetPiece[0] === 'b'))) {
+          return false;
+        }
+        
+        return true;
+      });
+      
+      if (validMoves.length === 0) {
+        // If no valid moves, make a random move from all possible moves
+        return possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+      }
+      
+      // Look for captures first among valid moves
+      const captureMoves = validMoves.filter(move => {
+        const [fromRow, fromCol, toRow, toCol] = move;
+        return board[toRow][toCol] !== ''; // Capture move
+      });
+      
+      if (captureMoves.length > 0) {
+        // Among captures, prefer capturing more valuable pieces
+        const moveValues = captureMoves.map(move => {
+          const [fromRow, fromCol, toRow, toCol] = move;
+          const capturedPiece = board[toRow][toCol];
+          let value = 0;
+          switch (capturedPiece[1]) {
+            case 'p': value = 1; break; // Pawn
+            case 'n': value = 3; break; // Knight
+            case 'b': value = 3; break; // Bishop
+            case 'r': value = 5; break; // Rook
+            case 'q': value = 9; break; // Queen
+            case 'k': value = 100; break; // King (shouldn't happen)
+          }
+          return { move, value };
+        });
+        
+        // Sort by value (descending) and return the best
+        moveValues.sort((a, b) => b.value - a.value);
+        return moveValues[0].move;
+      }
+      
+      // Look for checks
+      const checkMoves = validMoves.filter(move => {
+        const [fromRow, fromCol, toRow, toCol] = move;
+        // Simulate the move and check if it puts the opponent's king in check
+        // This is a simplified check
+        const piece = board[fromRow][fromCol];
+        return piece && piece[1] === 'q'; // Queens are likely to give check
+      });
+      
+      if (checkMoves.length > 0) {
+        return checkMoves[Math.floor(Math.random() * checkMoves.length)];
+      }
+      
+      // If no captures or checks, make a random move from valid moves
+      return validMoves[Math.floor(Math.random() * validMoves.length)];
+    }
+
+    function handleSquareClick(row, col) {
+      if (!gameActive) return;
+      
+      const pieceCode = board[row][col];
+      const square = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+      
+      // If a piece is already selected
+      if (selectedPiece) {
+        const [selectedRow, selectedCol] = selectedPiece;
+        
+        // If clicking on the same piece, deselect it
+        if (selectedRow === row && selectedCol === col) {
+          clearSelection();
+          return;
+        }
+        
+        // If clicking on another piece of the same color, select that piece instead
+        if (pieceCode && pieceCode[0] === board[selectedRow][selectedCol][0]) {
+          clearSelection();
+          selectPiece(row, col);
+          return;
+        }
+        
+        // Try to move the selected piece to this square
+        if (isValidMove(selectedRow, selectedCol, row, col)) {
+          movePiece(selectedRow, selectedCol, row, col);
+          
+          // Check if game is still active after the move (king might have been captured)
+          if (!gameActive) {
+            clearSelection();
+            return;
+          }
+          
+          clearSelection();
+          switchPlayer();
+          
+          // Check for checkmate after player move
+          checkForCheckmate();
+          
+          // Make AI move after a short delay if it's AI's turn and game is still active
+          if (gameActive) {
+            setTimeout(() => {
+              if ((currentPlayer === 'black' && playerColor !== 'black') || 
+                  (currentPlayer === 'white' && playerColor !== 'white')) {
+                makeAIMove();
+              }
+            }, 500);
+          }
+        } else {
+          // If invalid move, deselect
+          clearSelection();
+        }
+      } else {
+        // If no piece is selected yet
+        if (pieceCode) {
+          // Only allow selecting pieces of the current player's color
+          const pieceColor = pieceCode[0] === 'w' ? 'white' : 'black';
+          if (pieceColor === currentPlayer) {
+            selectPiece(row, col);
+          }
+        }
+      }
+    }
+
+    function selectPiece(row, col) {
+      selectedPiece = [row, col];
+      const square = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+      square.classList.add('selected');
+      
+      // Show possible moves
+      showPossibleMoves(row, col);
+    }
+
+    function clearSelection() {
+      if (selectedPiece) {
+        const [row, col] = selectedPiece;
+        const square = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+        if (square) {
+          square.classList.remove('selected');
+        }
+        selectedPiece = null;
+      }
+      
+      // Clear possible moves
+      clearPossibleMoves();
+    }
+
+    function showPossibleMoves(row, col) {
+      clearPossibleMoves();
+      
+      const pieceCode = board[row][col];
+      if (!pieceCode) return;
+      
+      const pieceType = pieceCode[1];
+      const pieceColor = pieceCode[0];
+      
+      // Calculate possible moves based on piece type
+      let moves = [];
+      
+      switch (pieceType) {
+        case 'p': // Pawn
+          moves = getPawnMoves(row, col, pieceColor);
+          break;
+        case 'r': // Rook
+          moves = getRookMoves(row, col, pieceColor);
+          break;
+        case 'n': // Knight
+          moves = getKnightMoves(row, col, pieceColor);
+          break;
+        case 'b': // Bishop
+          moves = getBishopMoves(row, col, pieceColor);
+          break;
+        case 'q': // Queen
+          moves = getQueenMoves(row, col, pieceColor);
+          break;
+        case 'k': // King
+          moves = getKingMoves(row, col, pieceColor);
+          break;
+      }
+      
+      // Highlight possible moves
+      moves.forEach(([r, c]) => {
+        const square = document.querySelector(`[data-row="${r}"][data-col="${c}"]`);
+        if (square) {
+          square.classList.add('possible-move');
+        }
+      });
+    }
+
+    function clearPossibleMoves() {
+      document.querySelectorAll('.possible-move').forEach(square => {
+        square.classList.remove('possible-move');
+      });
+    }
+
+    function getPawnMoves(row, col, color) {
+      const moves = [];
+      const direction = color === 'w' ? -1 : 1;
+      
+      // Move forward one square
+      if (isValidPosition(row + direction, col) && !board[row + direction][col]) {
+        moves.push([row + direction, col]);
+        
+        // Move forward two squares from starting position
+        const startRow = color === 'w' ? 6 : 1;
+        if (row === startRow && !board[row + 2 * direction][col]) {
+          moves.push([row + 2 * direction, col]);
+        }
+      }
+      
+      // Capture diagonally
+      const captureOffsets = [[direction, -1], [direction, 1]];
+      captureOffsets.forEach(([rOffset, cOffset]) => {
+        const newRow = row + rOffset;
+        const newCol = col + cOffset;
+        if (isValidPosition(newRow, newCol) && board[newRow][newCol] && board[newRow][newCol][0] !== color) {
+          moves.push([newRow, newCol]);
+        }
+      });
+      
+      return moves;
+    }
+
+    function getRookMoves(row, col, color) {
+      const moves = [];
+      const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]; // right, down, left, up
+      
+      directions.forEach(([rDir, cDir]) => {
+        for (let i = 1; i < 8; i++) {
+          const newRow = row + i * rDir;
+          const newCol = col + i * cDir;
+          
+          if (!isValidPosition(newRow, newCol)) break;
+          
+          if (!board[newRow][newCol]) {
+            // Empty square
+            moves.push([newRow, newCol]);
+          } else {
+            // Occupied square
+            if (board[newRow][newCol][0] !== color) {
+              // Capture opponent's piece
+              moves.push([newRow, newCol]);
+            }
+            break; // Stop in this direction
+          }
+        }
+      });
+      
+      return moves;
+    }
+
+    function getKnightMoves(row, col, color) {
+      const moves = [];
+      const offsets = [
+        [-2, -1], [-2, 1], [-1, -2], [-1, 2],
+        [1, -2], [1, 2], [2, -1], [2, 1]
+      ];
+      
+      offsets.forEach(([rOffset, cOffset]) => {
+        const newRow = row + rOffset;
+        const newCol = col + cOffset;
+        
+        if (isValidPosition(newRow, newCol)) {
+          if (!board[newRow][newCol] || board[newRow][newCol][0] !== color) {
+            moves.push([newRow, newCol]);
+          }
+        }
+      });
+      
+      return moves;
+    }
+
+    function getBishopMoves(row, col, color) {
+      const moves = [];
+      const directions = [[1, 1], [1, -1], [-1, 1], [-1, -1]]; // diagonals
+      
+      directions.forEach(([rDir, cDir]) => {
+        for (let i = 1; i < 8; i++) {
+          const newRow = row + i * rDir;
+          const newCol = col + i * cDir;
+          
+          if (!isValidPosition(newRow, newCol)) break;
+          
+          if (!board[newRow][newCol]) {
+            // Empty square
+            moves.push([newRow, newCol]);
+          } else {
+            // Occupied square
+            if (board[newRow][newCol][0] !== color) {
+              // Capture opponent's piece
+              moves.push([newRow, newCol]);
+            }
+            break; // Stop in this direction
+          }
+        }
+      });
+      
+      return moves;
+    }
+
+    function getQueenMoves(row, col, color) {
+      // Queen moves like rook + bishop
+      return [...getRookMoves(row, col, color), ...getBishopMoves(row, col, color)];
+    }
+
+    function getKingMoves(row, col, color) {
+      const moves = [];
+      const offsets = [
+        [-1, -1], [-1, 0], [-1, 1],
+        [0, -1],           [0, 1],
+        [1, -1],  [1, 0],  [1, 1]
+      ];
+      
+      offsets.forEach(([rOffset, cOffset]) => {
+        const newRow = row + rOffset;
+        const newCol = col + cOffset;
+        
+        if (isValidPosition(newRow, newCol)) {
+          if (!board[newRow][newCol] || board[newRow][newCol][0] !== color) {
+            moves.push([newRow, newCol]);
+          }
+        }
+      });
+      
+      return moves;
+    }
+
+    function isValidPosition(row, col) {
+      return row >= 0 && row < 8 && col >= 0 && col < 8;
+    }
+
+    function isValidMove(fromRow, fromCol, toRow, toCol) {
+      // This is a simplified validation - in a full implementation, you would add
+      // more sophisticated chess rules (check, checkmate, castling, etc.)
+      const pieceCode = board[fromRow][fromCol];
+      if (!pieceCode) return false;
+      
+      // Check if destination is a valid move for this piece
+      const pieceType = pieceCode[1];
+      const pieceColor = pieceCode[0];
+      
+      let validMoves = [];
+      switch (pieceType) {
+        case 'p': // Pawn
+          validMoves = getPawnMoves(fromRow, fromCol, pieceColor);
+          break;
+        case 'r': // Rook
+          validMoves = getRookMoves(fromRow, fromCol, pieceColor);
+          break;
+        case 'n': // Knight
+          validMoves = getKnightMoves(fromRow, fromCol, pieceColor);
+          break;
+        case 'b': // Bishop
+          validMoves = getBishopMoves(fromRow, fromCol, pieceColor);
+          break;
+        case 'q': // Queen
+          validMoves = getQueenMoves(fromRow, fromCol, pieceColor);
+          break;
+        case 'k': // King
+          validMoves = getKingMoves(fromRow, fromCol, pieceColor);
+          break;
+      }
+      
+      return validMoves.some(([r, c]) => r === toRow && c === toCol);
+    }
+
+    function movePiece(fromRow, fromCol, toRow, toCol) {
+      // Check if we're capturing a king
+      const capturedPiece = board[toRow][toCol];
+      if (capturedPiece && capturedPiece[1] === 'k') {
+        // King captured - game over
+        gameActive = false;
+        const winner = board[fromRow][fromCol][0] === 'w' ? 'white' : 'black';
+        const resultMessage = winner === playerColor ? 'Victory! You won the game!' : 'Defeat! You lost the game!';
+        document.getElementById('statusBar').textContent = resultMessage;
+        
+        // Show an alert as well for better visibility
+        setTimeout(() => {
+          alert(resultMessage);
+        }, 100);
+        
+        // Still move the piece for visual update
+        board[toRow][toCol] = board[fromRow][fromCol];
+        board[fromRow][fromCol] = '';
+        
+        // Update the UI
+        initializeChessboard();
+        
+        return;
+      }
+      
+      // Move the piece
+      board[toRow][toCol] = board[fromRow][fromCol];
+      board[fromRow][fromCol] = '';
+      
+      // Update the UI
+      initializeChessboard();
+    }
+
+    // Function to check for checkmate and display victory/defeat messages
+    function checkForCheckmate() {
+      // Check if the current player is in checkmate
+      if (isCheckmate(currentPlayer)) {
+        gameActive = false;
+        const winner = currentPlayer === 'white' ? 'black' : 'white';
+        const resultMessage = winner === playerColor ? 'Victory! You won the game!' : 'Defeat! You lost the game!';
+        document.getElementById('statusBar').textContent = resultMessage;
+        
+        // Show an alert as well for better visibility
+        setTimeout(() => {
+          alert(resultMessage);
+        }, 100);
+      }
+    }
+
+    // Simplified checkmate detection
+    function isCheckmate(playerColor) {
+      // This is a simplified version - in a real implementation, you would check:
+      // 1. If the king is in check
+      // 2. If there are no legal moves to get out of check
+      
+      // For this implementation, we'll simulate checkmate detection
+      // by checking if the player has any valid moves left
+      const possibleMoves = getAllPossibleMoves(playerColor);
+      
+      // If no possible moves, it's checkmate
+      if (possibleMoves.length === 0) {
+        return true;
+      }
+      
+      return false;
+    }
+
+    function switchPlayer() {
+      currentPlayer = currentPlayer === 'white' ? 'black' : 'white';
+      document.getElementById('statusBar').textContent = `${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)} to move`;
+    }
+
+    function changePlayerColor() {
+      playerColor = document.getElementById('playerColor').value;
+      document.getElementById('statusBar').textContent = `${playerColor.charAt(0).toUpperCase() + playerColor.slice(1)} to move`;
+    }
+
+    function toggleHelpMode() {
+      helpMode = !helpMode;
+      document.getElementById('helpModeBtn').textContent = `Play with Help: ${helpMode ? 'ON' : 'OFF'}`;
+    }
+
+    function resetBoard() {
+      board = [
+        ['br', 'bn', 'bb', 'bq', 'bk', 'bb', 'bn', 'br'],
+        ['bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp'],
+        ['', '', '', '', '', '', '', ''],
+        ['', '', '', '', '', '', '', ''],
+        ['', '', '', '', '', '', '', ''],
+        ['', '', '', '', '', '', '', ''],
+        ['wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp'],
+        ['wr', 'wn', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr']
+      ];
+      initializeChessboard();
+      currentPlayer = 'white';
+      gameActive = true;
+      document.getElementById('statusBar').textContent = 'White to move';
+      clearSelection();
+    }
+
+    // Programming functions
+    function changeLanguage() {
+      const language = document.getElementById('languageSelector').value;
+      const editor = document.getElementById('codeEditor');
+      const guide = document.getElementById('languageGuide');
+      
+      // Set template code
+      if (languageTemplates[language]) {
+        editor.value = languageTemplates[language];
+      }
+      
+      // Set language guide
+      if (languageGuides[language]) {
+        guide.textContent = languageGuides[language];
+      }
+    }
+
+    function loadExample(exampleType) {
+      const language = document.getElementById('languageSelector').value;
+      const editor = document.getElementById('codeEditor');
+      
+      if (exampleCodes[language] && exampleCodes[language][exampleType]) {
+        editor.value = exampleCodes[language][exampleType];
+      }
+    }
+
+    function runCode() {
+      const language = document.getElementById('languageSelector').value;
+      const code = document.getElementById('codeEditor').value;
+      const output = document.getElementById('codeOutput');
+      
+      // Show running status
+      output.textContent = "Running code...";
+      
+      // In a real implementation, this would send the code to a backend for execution
+      // For now, we'll simulate execution with more comprehensive outputs
+      setTimeout(() => {
+        let result = "";
+        
+        // More comprehensive simulation based on language and code content
+        if (language === 'c' || language === 'cpp') {
+          // Check for common syntax errors - but be more precise
+          if (code.includes("printf") && code.match(/printf\s*\(/) && !code.includes("#include <stdio.h>")) {
+            result = "Error: Missing #include <stdio.h> for printf function\n";
+            result += "Compilation failed.";
+            output.textContent = result;
+            return;
+          }
+          
+          if (code.includes("cout") && code.match(/cout\s*<</) && !code.includes("#include <iostream>")) {
+            result = "Error: Missing #include <iostream> for cout\n";
+            result += "Compilation failed.";
+            output.textContent = result;
+            return;
+          }
+          
+          if (code.includes("main(") && code.match(/main\s*\(/) && !code.match(/int\s+main\s*\(.*\)/)) {
+            result = "Error: Main function must return an int and have proper signature\n";
+            result += "Compilation failed.";
+            output.textContent = result;
+            return;
+          }
+          
+          // Simulate actual program output
+          if (code.includes("Hello, World!")) {
+            result = "Hello, World!\n";
+          } else if (code.includes("printf") || code.includes("cout")) {
+            // Try to extract what's being printed and simulate actual output
+            const printfMatches = code.match(/printf\s*\(\s*"[^"]*"\s*,[^)]*\)/g) || code.match(/printf\s*\(\s*"[^"]*"\s*\)/g);
+            const coutMatches = code.match(/cout\s*<<\s*"[^"]*"/g) || code.match(/cout\s*<<\s*\w+/g);
+            
+            if (code.includes("printf")) {
+              // For factorial example and similar
+              if (code.includes("factorial")) {
+                result = "Factorial of 5 is 120\n";
+              } else if (code.includes("Age:") || code.includes("age")) {
+                result = "Age: 25\nHeight: 5.9\nGrade: A\n";
+              } else if (code.includes("Array elements")) {
+                result = "Array elements:\nnumbers[0] = 10\nnumbers[1] = 20\nnumbers[2] = 30\nnumbers[3] = 40\nnumbers[4] = 50\n";
+              } else if (code.includes("Value:") || code.includes("value")) {
+                result = "Value: 42\nAddress of value: 0x7fff5fbff6ac\nPointer value: 0x7fff5fbff6ac\nValue via pointer: 42\n";
+              } else if (code.includes("Student:") || code.includes("student")) {
+                result = "Student: John Doe, Age: 20, GPA: 3.75\n";
+              } else if (code.includes("Number is greater")) {
+                result = "Number is greater than 10\n";
+              } else if (printfMatches) {
+                // Generic printf output
+                result = "";
+                printfMatches.forEach(match => {
+                  // Try to extract the format string and simulate output
+                  const formatMatch = match.match(/printf\s*\(\s*"([^"]*)"[^)]*\)/);
+                  if (formatMatch) {
+                    const formatStr = formatMatch[1];
+                    // Simple simulation - replace common format specifiers
+                    let outputLine = formatStr
+                      .replace(/\\n/g, '\n')
+                      .replace(/\\t/g, '\t')
+                      .replace(/%d/g, '42')
+                      .replace(/%f/g, '3.14')
+                      .replace(/%c/g, 'A')
+                      .replace(/%s/g, 'Hello');
+                    result += outputLine + '\n';
+                  }
+                });
+              } else {
+                result = "Program compiled and executed successfully.\n";
+              }
+            } else if (code.includes("cout")) {
+              if (code.includes("Factorial")) {
+                result = "Factorial of 5 is 120\n";
+              } else if (code.includes("Age:") || code.includes("age")) {
+                result = "Name: John\nAge: 25\nHeight: 5.9\nGrade: A\nIs Student: 1\n";
+              } else if (code.includes("Array elements")) {
+                result = "Array elements:\nnumbers[0] = 10\nnumbers[1] = 20\nnumbers[2] = 30\nnumbers[3] = 40\nnumbers[4] = 50\n";
+              } else if (code.includes("Value:") || code.includes("value")) {
+                result = "Value: 42\nAddress of value: 0x7fff5fbff6ac\nPointer value: 0x7fff5fbff6ac\nValue via pointer: 42\n";
+              } else if (code.includes("Student:") || code.includes("student")) {
+                result = "Student: John Doe, Age: 20, GPA: 3.75\n";
+              } else if (code.includes("Number is greater")) {
+                result = "Number is greater than 10\n";
+              } else if (coutMatches) {
+                // Generic cout output
+                result = "";
+                coutMatches.forEach(match => {
+                  // Try to extract the string content
+                  const stringMatch = match.match(/cout\s*<<\s*"([^"]*)"/);
+                  if (stringMatch) {
+                    result += stringMatch[1] + '\n';
+                  } else {
+                    // For variable output
+                    result += "42\n"; // Generic value
+                  }
+                });
+              } else {
+                result = "Program compiled and executed successfully.\n";
+              }
+            } else {
+              result = "Program compiled and executed successfully.\n";
+            }
+          } else if (code.includes("for") || code.includes("while")) {
+            if (code.includes("Iteration")) {
+              result = "Iteration 1\nIteration 2\nIteration 3\nIteration 4\nIteration 5\n";
+            } else {
+              result = "Loop executed successfully.\n";
+            }
+          } else if (code.includes("function") || code.includes("int ")) {
+            if (code.includes("add")) {
+              result = "5 + 3 = 8\n";
+            } else {
+              result = "Functions defined and executed successfully.\n";
+            }
+          } else {
+            result = "Program compiled and executed successfully.\n";
+          }
+        } else if (language === 'java') {
+          // Check for common syntax errors - but be more precise
+          if (code.includes("System.out.println") && code.match(/System\.out\.println/) && !code.includes("public class")) {
+            result = "Error: Java code must be inside a public class\n";
+            result += "Compilation failed.";
+            output.textContent = result;
+            return;
+          }
+          
+          if (code.includes("main(") && code.match(/main\s*\(/) && !code.match(/public\s+static\s+void\s+main\s*\(/)) {
+            result = "Error: Main method must be public static void\n";
+            result += "Compilation failed.";
+            output.textContent = result;
+            return;
+          }
+          
+          // Simulate actual program output
+          if (code.includes("Hello, World!")) {
+            result = "Hello, World!\n";
+          } else if (code.includes("System.out.println")) {
+            if (code.includes("factorial")) {
+              result = "Factorial of 5 is 120\n";
+            } else if (code.includes("Age:") || code.includes("age")) {
+              result = "Name: John\nAge: 25\nHeight: 5.9\nGrade: A\nIs Student: true\n";
+            } else if (code.includes("Array elements")) {
+              result = "Array elements:\nnumbers[0] = 10\nnumbers[1] = 20\nnumbers[2] = 30\nnumbers[3] = 40\nnumbers[4] = 50\n";
+            } else if (code.includes("Student:") || code.includes("student")) {
+              result = "Student: John Doe\nAge: 20\nGPA: 3.75\n";
+            } else if (code.includes("Number is greater")) {
+              result = "Number is greater than 10\n";
+            } else if (code.includes("5 + 3")) {
+              result = "5 + 3 = 8\n";
+            } else if (code.includes("Iteration")) {
+              result = "Iteration 1\nIteration 2\nIteration 3\nIteration 4\nIteration 5\n";
+            } else {
+              // Generic output
+              const printMatches = code.match(/System\.out\.println\s*\([^)]*\)/g);
+              if (printMatches) {
+                result = "";
+                printMatches.forEach(match => {
+                  // Extract content between parentheses
+                  const contentMatch = match.match(/System\.out\.println\s*\((.*)\)/);
+                  if (contentMatch) {
+                    const content = contentMatch[1];
+                    if (content.includes('"')) {
+                      // String literal
+                      const stringMatch = content.match(/"([^"]*)"/);
+                      if (stringMatch) {
+                        result += stringMatch[1] + '\n';
+                      }
+                    } else {
+                      // Variable or expression
+                      result += "42\n"; // Generic value
+                    }
+                  }
+                });
+              } else {
+                result = "Program compiled and executed successfully.\n";
+              }
+            }
+          } else {
+            result = "Program compiled and executed successfully.\n";
+          }
+        } else if (language === 'python') {
+          // Check for common syntax errors - but be more precise
+          if (code.includes("print") && code.match(/print\s*\([^)]*\{[^}]*\}[^)]*\)/) && !code.includes("f\"")) {
+            result = "Error: Use f-strings for formatted output: print(f\"...\")\n";
+            result += "Execution failed.";
+            output.textContent = result;
+            return;
+          }
+          
+          // Simulate actual program output
+          if (code.includes("Hello, World!")) {
+            result = "Hello, World!\n";
+          } else if (code.includes("print")) {
+            if (code.includes("factorial")) {
+              result = "Factorial of 5 is 120\n";
+            } else if (code.includes("Name:") || code.includes("name")) {
+              result = "Name: John\nAge: 25\nHeight: 5.9\nGrade: A\nIs Student: True\n";
+            } else if (code.includes("Array elements") || code.includes("numbers[")) {
+              result = "Array elements:\nnumbers[0] = 10\nnumbers[1] = 20\nnumbers[2] = 30\nnumbers[3] = 40\nnumbers[4] = 50\n";
+            } else if (code.includes("Student:") || code.includes("student")) {
+              result = "Student: John Doe, Age: 20, GPA: 3.75\n";
+            } else if (code.includes("Number is greater")) {
+              result = "Number is greater than 10\n";
+            } else if (code.includes("5 + 3")) {
+              result = "5 + 3 = 8\n";
+            } else if (code.includes("Iteration")) {
+              result = "Iteration 1\nIteration 2\nIteration 3\nIteration 4\nIteration 5\n";
+            } else {
+              // Generic output
+              const printMatches = code.match(/print\s*\([^)]*\)/g);
+              if (printMatches) {
+                result = "";
+                printMatches.forEach(match => {
+                  // Extract content between parentheses
+                  const contentMatch = match.match(/print\s*\((.*)\)/);
+                  if (contentMatch) {
+                    const content = contentMatch[1];
+                    if (content.includes('"') || content.includes("'")) {
+                      // String literal
+                      const stringMatch = content.match(/["']([^"']*)["']/);
+                      if (stringMatch) {
+                        result += stringMatch[1] + '\n';
+                      }
+                    } else if (content.includes("f\"") || content.includes("f'")) {
+                      // f-string
+                      result += "Formatted output\n";
+                    } else {
+                      // Variable or expression
+                      result += "42\n"; // Generic value
+                    }
+                  }
+                });
+              } else {
+                result = "Program executed successfully.\n";
+              }
+            }
+          } else {
+            result = "Program executed successfully.\n";
+          }
+        } else if (language === 'sql') {
+          // Check for common syntax errors - but be more precise
+          if ((code.includes("SELECT") || code.includes("INSERT") || code.includes("UPDATE") || code.includes("DELETE")) && 
+              (code.match(/SELECT|INSERT|UPDATE|DELETE/) && !code.trim().endsWith(";"))) {
+            result = "Error: SQL statements should end with a semicolon (;)\n";
+            result += "Query execution failed.";
+            output.textContent = result;
+            return;
+          }
+          
+          // Simulate actual SQL output
+          if (code.includes("Hello, World!")) {
+            result = "message\nHello, World!\n";
+          } else if (code.includes("Iteration")) {
+            result = "message\nIteration 1\nIteration 2\nIteration 3\nIteration 4\nIteration 5\n";
+          } else if (code.includes("SELECT")) {
+            if (code.includes("customers") && code.includes("orders")) {
+              result = "name    | amount\nJohn    | 100.00\nJane    | 250.75\n";
+            } else if (code.includes("employees")) {
+              result = "total_records | average_salary | max_salary | min_salary | total_salary\n10           | 75000.00      | 120000    | 50000     | 750000\n";
+            } else if (code.includes("salary") && code.includes("AVG")) {
+              result = "name    | salary\nJohn    | 80000\nJane    | 70000\n";
+            } else {
+              result = "Query executed successfully.\nResults will appear here in a tabular format.\n";
+            }
+          } else if (code.includes("INSERT") || code.includes("UPDATE") || code.includes("DELETE")) {
+            result = "Data modification query executed successfully.\n";
+          } else {
+            result = "Query executed successfully.\n";
+          }
+        } else {
+          result = "Code executed successfully.\n";
+        }
+        
+        output.textContent = result;
+      }, 1000);
+    }
+
+    // Function to answer programming questions
+    function answerQuestion() {
+      const question = document.getElementById('questionInput').value.trim();
+      const answerDiv = document.getElementById('questionAnswer');
+      
+      if (!question) {
+        answerDiv.style.display = 'block';
+        answerDiv.innerHTML = '<p style="color: #f44336;">Please enter a question.</p>';
+        return;
+      }
+      
+      answerDiv.style.display = 'block';
+      answerDiv.innerHTML = '<p>Thinking... 🤔</p>';
+      
+      // Simulate processing time
+      setTimeout(() => {
+        let answer = "";
+        const language = document.getElementById('languageSelector').value;
+        
+        // Generate answer based on question and language
+        if (question.toLowerCase().includes('variable')) {
+          switch(language) {
+            case 'c':
+            case 'cpp':
+              answer = "<strong>Variables in C/C++:</strong> Variables are named storage locations in memory that hold values. In C/C++, you must declare the type before using a variable.<br><br>" +
+                      "<strong>Examples:</strong><br>" +
+                      "int age = 25; // Integer variable<br>" +
+                      "float price = 19.99; // Floating-point variable<br>" +
+                      "char grade = 'A'; // Character variable<br><br>" +
+                      "Variables must be declared with a type before use, and they store data in memory for program operations.";
+              break;
+            case 'java':
+              answer = "<strong>Variables in Java:</strong> Variables are containers that store data values. Java is statically-typed, so you must declare the type before using a variable.<br><br>" +
+                      "<strong>Examples:</strong><br>" +
+                      "int age = 25; // Integer variable<br>" +
+                      "double price = 19.99; // Double-precision floating-point<br>" +
+                      "char grade = 'A'; // Character variable<br>" +
+                      "String name = \"John\"; // String variable<br><br>" +
+                      "Java variables are strongly typed and must be declared before use. They can be local (inside methods) or instance (in classes).";
+              break;
+            case 'python':
+              answer = "<strong>Variables in Python:</strong> Variables are created when you assign a value to them. Python is dynamically-typed, so you don't need to declare the type.<br><br>" +
+                      "<strong>Examples:</strong><br>" +
+                      "age = 25 # Integer variable<br>" +
+                      "price = 19.99 # Floating-point variable<br>" +
+                      "name = 'John' # String variable<br>" +
+                      "is_student = True # Boolean variable<br><br>" +
+                      "Python variables are dynamically typed and can change type after assignment. They reference objects in memory.";
+              break;
+            case 'sql':
+              answer = "<strong>Variables in SQL:</strong> SQL uses variables to store temporary values during query execution. Different databases have different syntax.<br><br>" +
+                      "<strong>Examples (T-SQL):</strong><br>" +
+                      "DECLARE @age INT = 25; -- Integer variable<br>" +
+                      "DECLARE @name VARCHAR(50) = 'John'; -- String variable<br><br>" +
+                      "In SQL, variables are typically used in stored procedures and scripts to hold temporary values during query execution.";
+              break;
+            default:
+              answer = "<strong>Variables:</strong> Variables are named storage locations in memory that hold values. They allow programs to store, retrieve, and manipulate data.<br><br>" +
+                      "Think of a variable as a labeled box where you can store information. You can put something in the box (assign a value), look at what's in it (retrieve the value), or change what's inside (reassign the value).";
+          }
+        } else if (question.toLowerCase().includes('loop')) {
+          answer = "<strong>Loops:</strong> Loops are control structures that allow you to execute a block of code repeatedly.<br><br>" +
+                  "There are several types of loops:<br>" +
+                  "1. <strong>For loops:</strong> Execute a block of code a specific number of times<br>" +
+                  "2. <strong>While loops:</strong> Execute as long as a condition is true<br>" +
+                  "3. <strong>Do-while loops:</strong> Execute at least once, then continue while condition is true<br><br>" +
+                  "Loops help avoid code repetition and are essential for processing collections of data or performing repetitive tasks.";
+        } else if (question.toLowerCase().includes('function') || question.toLowerCase().includes('method')) {
+          answer = "<strong>Functions/Methods:</strong> Functions are blocks of code designed to perform a specific task. They can be called multiple times from different parts of a program.<br><br>" +
+                  "<strong>Benefits:</strong><br>" +
+                  "• Code reusability - Write once, use many times<br>" +
+                  "• Modularity - Break complex problems into smaller parts<br>" +
+                  "• Maintainability - Easier to update and debug<br><br>" +
+                  "Functions can take parameters (input) and return values (output). They help organize code and make it more readable.";
+        } else if (question.toLowerCase().includes('array') || question.toLowerCase().includes('list')) {
+          answer = "<strong>Arrays/Lists:</strong> Data structures that store multiple values of the same type in a single variable.<br><br>" +
+                  "• <strong>Arrays:</strong> Fixed-size, indexed collections (C, C++, Java)<br>" +
+                  "• <strong>Lists:</strong> Dynamic-size collections (Python)<br><br>" +
+                  "Elements are accessed by index (starting at 0). They're useful for storing collections of related data like student grades, product prices, or user names.";
+        } else if (question.toLowerCase().includes('condition') || question.toLowerCase().includes('if')) {
+          answer = "<strong>Conditional Statements:</strong> Control structures that execute different code paths based on whether a condition is true or false.<br><br>" +
+                  "Common forms:<br>" +
+                  "• <strong>If statement:</strong> Execute code if condition is true<br>" +
+                  "• <strong>If-else:</strong> Choose between two code paths<br>" +
+                  "• <strong>Switch/Case:</strong> Choose from multiple options<br><br>" +
+                  "Conditions use comparison operators (==, !=, <, >, <=, >=) and logical operators (&&, ||, !) to make decisions in code.";
+        } else if (question.toLowerCase().includes('class') || question.toLowerCase().includes('object')) {
+          answer = "<strong>Classes and Objects:</strong> Core concepts of Object-Oriented Programming (OOP).<br><br>" +
+                  "• <strong>Class:</strong> A blueprint or template for creating objects<br>" +
+                  "• <strong>Object:</strong> An instance of a class<br><br>" +
+                  "Classes define properties (data) and methods (functions) that objects will have. This allows for organizing code around real-world entities and concepts.";
+        } else if (question.toLowerCase().includes('pointer')) {
+          answer = "<strong>Pointers:</strong> Variables that store memory addresses rather than values directly.<br><br>" +
+                  "• Used primarily in C/C++<br>" +
+                  "• Allow direct memory manipulation<br>" +
+                  "• Enable efficient array and string handling<br>" +
+                  "• Required for dynamic memory allocation<br><br>" +
+                  "Pointers are powerful but can be complex. They're declared with an asterisk (*) and accessed with the address-of (&) and dereference (*) operators.";
+        } else if (question.toLowerCase().includes('recurs')) {
+          answer = "<strong>Recursion:</strong> A programming technique where a function calls itself to solve a problem.<br><br>" +
+                  "Key components:<br>" +
+                  "• <strong>Base case:</strong> Condition that stops the recursion<br>" +
+                  "• <strong>Recursive case:</strong> Function calls itself with modified parameters<br><br>" +
+                  "Common examples include calculating factorials, traversing tree structures, and implementing mathematical sequences like Fibonacci.";
+        } else if (question.toLowerCase().includes('exception') || question.toLowerCase().includes('error')) {
+          answer = "<strong>Exception Handling:</strong> A programming construct to handle runtime errors gracefully.<br><br>" +
+                  "Structure (try-catch-finally):<br>" +
+                  "• <strong>Try:</strong> Code that might cause an error<br>" +
+                  "• <strong>Catch:</strong> Handles specific types of errors<br>" +
+                  "• <strong>Finally:</strong> Always executes, regardless of errors<br><br>" +
+                  "This prevents programs from crashing and allows for proper error recovery and user feedback.";
+        } else if (question.toLowerCase().includes('sql')) {
+          answer = "<strong>SQL (Structured Query Language):</strong> A domain-specific language for managing and manipulating relational databases.<br><br>" +
+                  "Main operations:<br>" +
+                  "• <strong>SELECT:</strong> Retrieve data<br>" +
+                  "• <strong>INSERT:</strong> Add new data<br>" +
+                  "• <strong>UPDATE:</strong> Modify existing data<br>" +
+                  "• <strong>DELETE:</strong> Remove data<br><br>" +
+                  "SQL is declarative - you describe what you want, not how to get it. It's the standard language for relational database management systems.";
+        } else {
+          // General explanation
+          answer = "<strong>Programming Concept Explanation:</strong><br><br>" +
+                  "Programming involves writing instructions for computers to execute. These instructions are written in programming languages like C, Java, Python, etc.<br><br>" +
+                  "Key concepts include:<br>" +
+                  "• <strong>Variables:</strong> Store data values<br>" +
+                  "• <strong>Control Structures:</strong> Direct program flow (loops, conditions)<br>" +
+                  "• <strong>Functions:</strong> Reusable code blocks<br>" +
+                  "• <strong>Data Structures:</strong> Organize and store data<br>" +
+                  "• <strong>Algorithms:</strong> Step-by-step problem-solving procedures<br><br>" +
+                  "Learning programming develops logical thinking and problem-solving skills that are valuable in many fields.";
+        }
+        
+        answerDiv.innerHTML = `<p>${answer}</p>`;
+        
+        // Generate avatar response for the explanation
+        generateAvatarResponse(answer.replace(/<[^>]*>/g, ''));
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
