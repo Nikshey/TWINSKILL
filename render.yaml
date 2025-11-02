@@ -2,7 +2,7 @@ services:
   - type: web
     name: twinskill-backend
     env: node
-    buildCommand: npm install
+    buildCommand: npm install && npm run rebuild
     startCommand: npm start
     envVars:
       - key: NODE_VERSION
