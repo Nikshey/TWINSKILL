@@ -10,6 +10,12 @@ const multer = require('multer');
 const fs = require('fs');
 const { detectFace, detectFaceWithDetails } = require('./faceDetection');
 const { detectGenderByName, getVoiceSettings } = require('./genderDetection');
+const dotenv = require("dotenv");
+dotenv.config();
+
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/twinskill')
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch(err => console.error("❌ MongoDB Connection Error:", err));
 
 // Set the D-ID API key from environment or use the provided one
 process.env.DID_API_KEY = process.env.DID_API_KEY || "c2Fpbmlrc2hheWpha2tlbmFAZ21haWwuY29t:nAlhA9RNDehhGzdBgZJ4b";
@@ -23,9 +29,16 @@ app.use(cors());
 const morgan = require('morgan');
 app.use(morgan('dev'));
 
-// Serve frontend statically from ../frontend
+// Serve frontend statically - check both ../frontend and .. (project root)
 const publicDir = path.join(__dirname, '..', 'frontend');
-app.use(express.static(publicDir));
+const projectRoot = path.join(__dirname, '..');
+if (fs.existsSync(publicDir)) {
+  app.use(express.static(publicDir));
+} else {
+  // Fallback to project root if frontend directory doesn't exist
+  app.use(express.static(projectRoot));
+}
+
 // Serve uploaded files
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
@@ -53,7 +66,7 @@ const upload = multer({
   }
 });
 
-// Add this error handling middleware before your routes
+// Enhanced error handling middleware
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
   // Always return JSON for API endpoints
@@ -67,9 +80,27 @@ app.use((err, req, res, next) => {
   res.status(500).send('<h1>Internal Server Error</h1>');
 });
 
+// Add a 404 handler for API routes
+app.use('/api/*', (req, res, next) => {
+  // If we reach here, it means no route matched, so it's a 404 for API
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ message: "API endpoint not found" });
+  }
+  next();
+});
+
 // Serve index.html as default route
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+  // Try to serve from frontend directory first, fallback to project root
+  const indexPath = fs.existsSync(publicDir) 
+    ? path.join(publicDir, 'index.html') 
+    : path.join(projectRoot, 'index.html');
+  
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).send('<h1>Page not found</h1>');
+  }
 });
 
 // Start the server
@@ -868,6 +899,12 @@ app.delete('/api/delete-account', async (req, res) => {
   }
 });
 
-app.listen(PORT, HOST, () => {
-  console.log(`Server is running on http://${HOST}:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+// Add this at the end of the file to handle Render's port
+const serverPort = process.env.PORT || 3000;
+app.listen(serverPort, () => {
+  console.log(`Server is running on port ${serverPort}`);
 });

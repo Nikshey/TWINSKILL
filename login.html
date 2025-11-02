@@ -231,6 +231,15 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
         });
+
+        // Check if response is JSON before parsing
+        const contentType = res.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          // If response is not JSON, it's likely an HTML error page
+          const errorText = await res.text();
+          throw new Error(`Server error: ${res.status}. Please check if the backend server is running.`);
+        }
+
         const data = await res.json();
         if (res.ok) {
           if (data && data.user) {

@@ -341,6 +341,14 @@
           body: formData
         });
 
+        // Check if response is JSON before parsing
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          // If response is not JSON, it's likely an HTML error page
+          const errorText = await response.text();
+          throw new Error(`Server error: ${response.status}. Please check if the backend server is running.`);
+        }
+
         const result = await response.json();
         if (response.ok) {
           sessionStorage.setItem('username', name);
@@ -362,6 +370,7 @@
         document.getElementById('registerMsg').innerText = result.message || 'Registration failed';
 
       } catch (error) {
+        console.error('Registration error:', error);
         document.getElementById('registerMsg').innerText = 'Registration failed: ' + (error && error.message ? error.message : String(error));
       }
     });

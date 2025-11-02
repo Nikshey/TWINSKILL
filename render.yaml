@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: twinskill-backend
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: MONGODB_URI
+        sync: false
+      - key: DID_API_KEY
+        sync: false
