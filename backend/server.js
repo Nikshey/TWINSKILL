@@ -4,12 +4,30 @@ const User = require('./usermodel');
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST || '0.0.0.0';
 const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
-const { detectFace, detectFaceWithDetails } = require('./faceDetection');
-const { detectGenderByName, getVoiceSettings } = require('./genderDetection');
+
+// Try to load canvas and face-api.js, but provide fallbacks if they fail
+let detectFace, detectFaceWithDetails, detectGenderByName, getVoiceSettings;
+
+try {
+  const faceDetection = require('./faceDetection');
+  detectFace = faceDetection.detectFace;
+  detectFaceWithDetails = faceDetection.detectFaceWithDetails;
+  
+  const genderDetection = require('./genderDetection');
+  detectGenderByName = genderDetection.detectGenderByName;
+  getVoiceSettings = genderDetection.getVoiceSettings;
+} catch (error) {
+  console.warn('Warning: Face detection modules not available:', error.message);
+  // Provide fallback functions
+  detectFace = async () => true; // Always return true if face detection is not available
+  detectFaceWithDetails = async () => ({ faceDetected: true, gender: 'unknown', age: 0, confidence: 0 });
+  detectGenderByName = () => 'unknown';
+  getVoiceSettings = () => ({ voiceId: 'en-US-GuyNeural' });
+}
+
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -901,10 +919,4 @@ app.delete('/api/delete-account', async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-});
-
-// Add this at the end of the file to handle Render's port
-const serverPort = process.env.PORT || 3000;
-app.listen(serverPort, () => {
-  console.log(`Server is running on port ${serverPort}`);
 });
